@@ -1,0 +1,255 @@
+{% extends "bienestar/base.html" %}
+
+
+{% block title %}
+Crear usuario | Bienestar
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-7 col-lg-8">
+
+        <div class="app-card">
+
+            <div class="card-padding">
+
+
+                <!-- HEADER -->
+
+                <div class="form-header">
+
+                    <div class="form-icon">
+                        👤
+                    </div>
+
+                    <h1 class="form-title">
+                        Crear usuario
+                    </h1>
+
+                    <p class="form-description">
+                        Crea una nueva cuenta para acceder
+                        al sistema de Bienestar Laboral.
+                    </p>
+
+                </div>
+
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+
+                    <!-- USUARIO -->
+
+                    <div class="form-section">
+
+                        <label class="form-label-pro">
+
+                            <i class="bi bi-person-badge-fill"></i>
+
+                            Nombre de usuario
+
+                        </label>
+
+                        {{ form.username }}
+
+                        {% for error in form.username.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- NOMBRE Y APELLIDO -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-section">
+
+                                <label class="form-label-pro">
+
+                                    <i class="bi bi-person-fill"></i>
+
+                                    Nombre
+
+                                </label>
+
+                                {{ form.first_name }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="form-section">
+
+                                <label class="form-label-pro">
+
+                                    <i class="bi bi-person-fill"></i>
+
+                                    Apellido
+
+                                </label>
+
+                                {{ form.last_name }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-section">
+
+                        <label class="form-label-pro">
+
+                            <i class="bi bi-envelope-fill"></i>
+
+                            Correo electrónico
+
+                        </label>
+
+                        {{ form.email }}
+
+                        {% for error in form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- ROL -->
+
+                    <div class="form-section">
+
+                        <label class="form-label-pro">
+
+                            <i class="bi bi-shield-lock-fill"></i>
+
+                            Rol del usuario
+
+                        </label>
+
+                        {{ form.rol }}
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-section">
+
+                                <label class="form-label-pro">
+
+                                    <i class="bi bi-key-fill"></i>
+
+                                    Contraseña
+
+                                </label>
+
+                                {{ form.password1 }}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="form-section">
+
+                                <label class="form-label-pro">
+
+                                    <i class="bi bi-key-fill"></i>
+
+                                    Confirmar contraseña
+
+                                </label>
+
+                                {{ form.password2 }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if form.password1.help_text %}
+
+                    <div class="privacy-notice">
+
+                        <i class="bi bi-info-circle-fill"></i>
+
+                        <div>
+                            La contraseña debe cumplir
+                            los requisitos de seguridad
+                            configurados en Django.
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <!-- ERRORES GENERALES -->
+
+                    {% if form.non_field_errors %}
+
+                    <div class="form-error mt-3">
+
+                        {% for error in form.non_field_errors %}
+
+                            <div>
+                                <i class="bi bi-exclamation-circle-fill me-1"></i>
+                                {{ error }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-send w-100"
+                    >
+
+                        <i class="bi bi-person-plus-fill"></i>
+
+                        Crear usuario
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends "bienestar/base.html" %}
+
+
+{% block title %}
+Respuesta registrada | Bienestar
+{% endblock %}
+
+
+{% block content %}
+
+<div class="emotional-success-page">
+
+    <div class="row justify-content-center">
+
+        <div class="col-xl-6 col-lg-7 col-md-9">
+
+            <div class="success-card">
+
+
+                <!-- =========================================
+                     CABECERA / EMOCIÓN
+                ========================================== -->
+
+                <div class="success-emotion-area">
+
+                    <div class="success-emoji">
+                        {{ emocion.emoji|default:"💙" }}
+                    </div>
+
+
+                    {% if momento == "entrada" %}
+
+                        <div class="success-moment success-moment-entry">
+
+                            <i class="bi bi-sunrise-fill"></i>
+
+                            Entrada registrada
+
+                        </div>
+
+                    {% elif momento == "salida" %}
+
+                        <div class="success-moment success-moment-exit">
+
+                            <i class="bi bi-sunset-fill"></i>
+
+                            Salida registrada
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <h1 class="success-title">
+
+                        ¡Gracias por compartirlo!
+
+                    </h1>
+
+
+                    <p class="success-subtitle">
+
+                        Tu bienestar también suma al equipo.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     MENSAJE DESTACADO
+                ========================================== -->
+
+                <div class="success-message-card">
+
+                    <div class="success-message-icon">
+
+                        <i class="bi bi-stars"></i>
+
+                    </div>
+
+
+                    <div class="success-message-content">
+
+                        <span class="success-message-label">
+
+                            MENSAJE PARA TI
+
+                        </span>
+
+
+                        <p class="success-message-text">
+
+                            {{ mensaje }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     CONFIRMACIÓN
+                ========================================== -->
+
+                <div class="success-confirmation">
+
+                    <div class="success-confirmation-icon">
+
+                        <i class="bi bi-check-lg"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Respuesta registrada
+                        </strong>
+
+                        <span>
+                            Tu información fue guardada correctamente.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     FINAL
+                ========================================== -->
+
+                {% if user.is_staff %}
+
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="success-main-button"
+                    >
+
+                        <i class="bi bi-grid-fill"></i>
+
+                        Volver al Dashboard
+
+                    </a>
+
+                {% else %}
+
+                    <div class="success-finish">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        <div>
+
+                            <strong>
+                                Registro completado
+                            </strong>
+
+                            <span>
+                                Ya puedes cerrar esta página.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

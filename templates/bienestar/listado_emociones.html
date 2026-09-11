@@ -1,0 +1,570 @@
+{% extends "bienestar/base.html" %}
+
+
+{% block title %}
+Historial emocional | Bienestar
+{% endblock %}
+
+
+{% block content %}
+
+<div class="dashboard-page">
+
+
+    <div class="dashboard-hero">
+
+        <div>
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="history-back"
+            >
+                <i class="bi bi-arrow-left"></i>
+                Dashboard
+            </a>
+
+            <div class="dashboard-eyebrow mt-3">
+
+                <i class="bi bi-clock-history"></i>
+
+                Historial
+
+            </div>
+
+            <h1>
+                Percepción emocional
+            </h1>
+
+            <p>
+                Consulta las respuestas históricas
+                de los colaboradores.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTROS -->
+
+    <div class="dashboard-card">
+
+
+        <form method="get">
+
+            <div class="row g-3">
+
+
+                <div class="col-xl-4">
+
+                    <label class="form-label-pro">
+
+                        <i class="bi bi-search"></i>
+
+                        Buscar
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ busqueda }}"
+                        class="form-control"
+                        placeholder="Usuario, nombre o comentario..."
+                    >
+
+                </div>
+
+
+                <div class="col-xl-3 col-md-4">
+
+                    <label class="form-label-pro">
+
+                        <i class="bi bi-emoji-smile"></i>
+
+                        Emoción
+
+                    </label>
+
+                    <select
+                        name="emocion"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            Todas
+                        </option>
+
+                        {% for codigo, nombre in emociones %}
+
+                            <option
+                                value="{{ codigo }}"
+
+                                {% if emocion_actual == codigo %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ nombre }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-xl-2 col-md-4">
+
+                    <label class="form-label-pro">
+
+                        <i class="bi bi-arrow-left-right"></i>
+
+                        Momento
+
+                    </label>
+
+                    <select
+                        name="momento"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            Todos
+                        </option>
+
+                        <option
+                            value="entrada"
+                            {% if momento_actual == "entrada" %}
+                                selected
+                            {% endif %}
+                        >
+                            Entrada
+                        </option>
+
+                        <option
+                            value="salida"
+                            {% if momento_actual == "salida" %}
+                                selected
+                            {% endif %}
+                        >
+                            Salida
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-xl-3 col-md-4">
+
+                    <label class="form-label-pro">
+
+                        <i class="bi bi-person-raised-hand"></i>
+
+                        Apoyo
+
+                    </label>
+
+                    <select
+                        name="apoyo"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            Todos
+                        </option>
+
+                        <option
+                            value="si"
+                            {% if apoyo_actual == "si" %}
+                                selected
+                            {% endif %}
+                        >
+                            Solicitó apoyo
+                        </option>
+
+                        <option
+                            value="no"
+                            {% if apoyo_actual == "no" %}
+                                selected
+                            {% endif %}
+                        >
+                            Sin apoyo
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-12">
+
+                    <div class="d-flex gap-2">
+
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+
+                            <i class="bi bi-funnel-fill"></i>
+
+                            Aplicar filtros
+
+                        </button>
+
+
+                        <a
+                            href="{% url 'listado_emociones' %}"
+                            class="btn btn-outline-secondary"
+                        >
+
+                            Limpiar
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- TABLA -->
+
+    <div class="dashboard-card mt-4">
+
+        <div class="dashboard-card-header">
+
+            <div>
+
+                <h5>
+                    Registros
+                </h5>
+
+                <p>
+                    {{ pagina.paginator.count }}
+                    respuestas encontradas.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="table pro-table align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Trabajador
+                        </th>
+
+                        <th>
+                            Percepción
+                        </th>
+
+                        <th>
+                            Momento
+                        </th>
+
+                        <th>
+                            Apoyo
+                        </th>
+
+                        <th>
+                            Comentario
+                        </th>
+
+                        <th>
+                            Fecha / gestión
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for item in pagina %}
+
+                    {% with respuesta=item.respuesta %}
+
+                    <tr>
+
+                        <td>
+
+                            <div class="table-user">
+
+                                <div class="table-avatar">
+
+                                    {{ respuesta.usuario.username|first|upper }}
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ respuesta.usuario.get_full_name|default:respuesta.usuario.username }}
+
+                                    </strong>
+
+                                    <small>
+
+                                        @{{ respuesta.usuario.username }}
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <div
+                                class="emotion-table-chip"
+                                style="
+                                    --row-emotion-color:
+                                    {{ item.color }};
+                                "
+                            >
+
+                                <span class="emotion-table-emoji">
+                                    {{ item.emoji }}
+                                </span>
+
+                                <strong>
+                                    {{ respuesta.get_emocion_display }}
+                                </strong>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            {% if respuesta.momento == "entrada" %}
+
+                                <span class="moment-pill moment-entry">
+
+                                    <i class="bi bi-sunrise-fill"></i>
+
+                                    Entrada
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="moment-pill moment-exit">
+
+                                    <i class="bi bi-sunset-fill"></i>
+
+                                    Salida
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if respuesta.tipo_apoyo == "ninguno" %}
+
+                                <span class="support-none">
+
+                                    Sin apoyo
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="support-required">
+
+                                    {{ respuesta.get_tipo_apoyo_display }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if respuesta.comentario %}
+
+                                {{ respuesta.comentario|truncatechars:70 }}
+
+                            {% else %}
+
+                                <span class="text-muted">
+                                    Sin comentario
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <div class="time-action-cell">
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ respuesta.fecha|date:"d/m/Y" }}
+
+                                    </strong>
+
+                                    <small>
+
+                                        {{ respuesta.fecha|date:"H:i" }}
+
+                                    </small>
+
+                                </div>
+
+
+                                {% if item.solicitud %}
+
+                                    <a
+                                        href="{% url 'atender_solicitud' item.solicitud.pk %}"
+                                        class="btn btn-sm support-action-btn"
+                                    >
+
+                                        {% if item.solicitud.estado == "atendida" %}
+
+                                            <i class="bi bi-eye-fill"></i>
+
+                                            Ver
+
+                                        {% else %}
+
+                                            <i class="bi bi-person-check-fill"></i>
+
+                                            Atender
+
+                                        {% endif %}
+
+                                    </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endwith %}
+
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="text-center py-5"
+                        >
+
+                            <div class="empty-icon">
+                                🔎
+                            </div>
+
+                            <h5>
+                                Sin resultados
+                            </h5>
+
+                            <p class="text-muted mb-0">
+
+                                No existen registros con
+                                los filtros seleccionados.
+
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        {% if pagina.paginator.num_pages > 1 %}
+
+        <div class="history-pagination">
+
+            {% if pagina.has_previous %}
+
+                <a
+                    href="?page={{ pagina.previous_page_number }}&q={{ busqueda }}&emocion={{ emocion_actual }}&momento={{ momento_actual }}&apoyo={{ apoyo_actual }}"
+                    class="btn btn-sm btn-outline-primary"
+                >
+
+                    <i class="bi bi-chevron-left"></i>
+
+                    Anterior
+
+                </a>
+
+            {% endif %}
+
+
+            <span>
+
+                Página
+                <strong>{{ pagina.number }}</strong>
+                de
+                <strong>{{ pagina.paginator.num_pages }}</strong>
+
+            </span>
+
+
+            {% if pagina.has_next %}
+
+                <a
+                    href="?page={{ pagina.next_page_number }}&q={{ busqueda }}&emocion={{ emocion_actual }}&momento={{ momento_actual }}&apoyo={{ apoyo_actual }}"
+                    class="btn btn-sm btn-outline-primary"
+                >
+
+                    Siguiente
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,778 @@
+{% extends "bienestar/base.html" %}
+
+
+{% block title %}
+
+    {% if momento == "entrada" %}
+        Entrada | Bienestar
+    {% else %}
+        Salida | Bienestar
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-9 col-lg-10 col-md-12">
+
+        <div class="app-card emotional-form-card">
+
+            <div class="card-padding">
+
+
+                <!-- =====================================================
+                     HEADER ENTRADA / SALIDA
+                ====================================================== -->
+
+                <div class="form-header emotional-header">
+
+
+                    {% if momento == "entrada" %}
+
+                        <div class="moment-header moment-header-entry">
+
+                            <div class="moment-header-icon">
+
+                                <i class="bi bi-sunrise-fill"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="moment-header-label">
+                                    ENTRADA
+                                </span>
+
+                                <span class="moment-header-time">
+                                    Inicio de jornada
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <h1 class="form-title emotional-title">
+
+                            ¿Cómo te sientes al comenzar tu jornada?
+
+                        </h1>
+
+
+                        <p class="form-description">
+
+                            Selecciona la opción que mejor represente
+                            cómo te sientes en este momento.
+
+                        </p>
+
+
+                    {% else %}
+
+                        <div class="moment-header moment-header-exit">
+
+                            <div class="moment-header-icon">
+
+                                <i class="bi bi-sunset-fill"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="moment-header-label">
+                                    SALIDA
+                                </span>
+
+                                <span class="moment-header-time">
+                                    Fin de jornada
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <h1 class="form-title emotional-title">
+
+                            ¿Cómo te sientes al finalizar tu jornada?
+
+                        </h1>
+
+
+                        <p class="form-description">
+
+                            Cuéntanos cómo terminas tu jornada de hoy.
+
+                        </p>
+
+                    {% endif %}
+
+
+                </div>
+
+
+
+                <!-- =====================================================
+                     ERRORES
+                ====================================================== -->
+
+                {% if form.errors %}
+
+                    <div class="form-error">
+
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+                        Por favor revisa la información antes
+                        de continuar.
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- =====================================================
+                     FORMULARIO
+                ====================================================== -->
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+
+                    <!-- IMPORTANTE:
+                         Conserva Entrada / Salida después de enviar -->
+
+                    <input
+                        type="hidden"
+                        name="momento"
+                        value="{{ momento }}"
+                    >
+
+
+
+                    <!-- =================================================
+                         EMOCIONES
+                    ================================================== -->
+
+                    <div class="emotion-grid">
+
+
+                        <!-- =================================================
+                             FELIZ
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_feliz"
+                                value="feliz"
+
+                                {% if form.emocion.value == "feliz" %}
+                                    checked
+                                {% endif %}
+
+                                required
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-feliz"
+                                for="emocion_feliz"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    😊
+                                </span>
+
+
+                                <!-- DESKTOP -->
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Feliz / contento
+                                </span>
+
+
+                                <!-- MOBILE -->
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Feliz
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             MOTIVADO
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_motivado"
+                                value="motivado"
+
+                                {% if form.emocion.value == "motivado" %}
+                                    checked
+                                {% endif %}
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-motivado"
+                                for="emocion_motivado"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    ⚡
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Motivado / con energía
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Motivado
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             TRANQUILO
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_tranquilo"
+                                value="tranquilo"
+
+                                {% if form.emocion.value == "tranquilo" %}
+                                    checked
+                                {% endif %}
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-tranquilo"
+                                for="emocion_tranquilo"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    😌
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Tranquilo
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Tranquilo
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             ESTRESADO
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_estresado"
+                                value="estresado"
+
+                                {% if form.emocion.value == "estresado" %}
+                                    checked
+                                {% endif %}
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-estresado"
+                                for="emocion_estresado"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    😟
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Preocupado / estresado
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Estrés
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             TRISTE
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_triste"
+                                value="triste"
+
+                                {% if form.emocion.value == "triste" %}
+                                    checked
+                                {% endif %}
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-triste"
+                                for="emocion_triste"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    😔
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Desanimado / triste
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Triste
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             AGOTADO
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_agotado"
+                                value="agotado"
+
+                                {% if form.emocion.value == "agotado" %}
+                                    checked
+                                {% endif %}
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-agotado"
+                                for="emocion_agotado"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    😴
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Agotado / poca energía
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Agotado
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             MALESTAR
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_malestar"
+                                value="malestar"
+
+                                {% if form.emocion.value == "malestar" %}
+                                    checked
+                                {% endif %}
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-malestar"
+                                for="emocion_malestar"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    🤒
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Con malestar físico
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Malestar
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             OTRO
+                        ================================================== -->
+
+                        <div>
+
+                            <input
+                                class="emotion-input"
+                                type="radio"
+                                name="emocion"
+                                id="emocion_otro"
+                                value="otro"
+
+                                {% if form.emocion.value == "otro" %}
+                                    checked
+                                {% endif %}
+                            >
+
+
+                            <label
+                                class="emotion-card emotion-otro"
+                                for="emocion_otro"
+                            >
+
+                                <span class="emotion-check">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </span>
+
+
+                                <span class="emotion-emoji">
+                                    💬
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-desktop
+                                    "
+                                >
+                                    Otro estado
+                                </span>
+
+
+                                <span
+                                    class="
+                                        emotion-name
+                                        emotion-name-mobile
+                                    "
+                                >
+                                    Otro
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         APOYO
+                    ================================================== -->
+
+                    <div class="form-section">
+
+                        <label
+                            class="form-label-pro"
+                            for="{{ form.tipo_apoyo.id_for_label }}"
+                        >
+
+                            <i class="bi bi-people-fill"></i>
+
+                            ¿Necesitas algún tipo de apoyo?
+
+                        </label>
+
+
+                        {{ form.tipo_apoyo }}
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         COMENTARIO
+                    ================================================== -->
+
+                    <div class="form-section">
+
+                        <label
+                            class="form-label-pro"
+                            for="{{ form.comentario.id_for_label }}"
+                        >
+
+                            <i class="bi bi-chat-left-text-fill"></i>
+
+                            ¿Quieres contarnos algo más?
+
+                        </label>
+
+
+                        {{ form.comentario }}
+
+
+                        <div class="form-text mt-2">
+
+                            Este campo es opcional.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         PRIVACIDAD
+                    ================================================== -->
+
+                    <div class="privacy-notice">
+
+                        <i class="bi bi-shield-lock-fill"></i>
+
+
+                        <div>
+
+                            La información será utilizada
+                            exclusivamente para apoyar el bienestar
+                            y la gestión preventiva del equipo.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         BOTÓN
+                    ================================================== -->
+
+                    <button
+                        type="submit"
+                        class="btn btn-send w-100"
+                    >
+
+                        {% if momento == "entrada" %}
+
+                            <i class="bi bi-sunrise-fill"></i>
+
+                            Registrar entrada
+
+                        {% else %}
+
+                            <i class="bi bi-sunset-fill"></i>
+
+                            Registrar salida
+
+                        {% endif %}
+
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

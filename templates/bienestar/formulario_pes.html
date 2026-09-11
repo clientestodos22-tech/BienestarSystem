@@ -1,0 +1,419 @@
+{% extends "bienestar/base.html" %}
+
+
+{% block title %}
+Declaración PES | Bienestar
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-9 col-lg-10">
+
+        <div class="app-card">
+
+            <div class="card-padding">
+
+
+                <!-- =========================================
+                     HEADER
+                ========================================== -->
+
+                <div class="form-header">
+
+                    <div class="form-icon pes-form-icon">
+                        <i class="bi bi-shield-fill-check"></i>
+                    </div>
+
+                    <div class="pes-badge">
+                        <i class="bi bi-person-heart"></i>
+                        Personas Especialmente Sensibles
+                    </div>
+
+                    <h1 class="form-title">
+                        Declaración PES
+                    </h1>
+
+                    <p class="form-description">
+                        Esta declaración permite identificar posibles
+                        necesidades de protección, apoyo o adaptación
+                        durante la jornada laboral.
+                    </p>
+
+                </div>
+
+
+                {% if form.errors %}
+
+                    <div class="form-error">
+
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+                        Revisa la información antes de continuar.
+
+                    </div>
+
+                {% endif %}
+
+
+                <form method="post" id="pesForm">
+
+                    {% csrf_token %}
+
+
+                    <!-- =========================================
+                         ¿ES PES?
+                    ========================================== -->
+
+                    <div class="form-section mt-0">
+
+                        <label class="form-label-pro mb-3">
+
+                            <i class="bi bi-person-check-fill"></i>
+
+                            ¿Te identificas como persona especialmente sensible?
+
+                        </label>
+
+
+                        <div class="pes-choice-grid">
+
+
+                            <!-- SI -->
+
+                            <div>
+
+                                <input
+                                    type="radio"
+                                    class="pes-choice-input"
+                                    name="es_pes"
+                                    id="es_pes_si"
+                                    value="True"
+
+                                    {% if form.es_pes.value|stringformat:"s" == "True" %}
+                                        checked
+                                    {% endif %}
+
+                                    required
+                                >
+
+                                <label
+                                    class="pes-choice-card pes-choice-yes"
+                                    for="es_pes_si"
+                                >
+
+                                    <div class="pes-choice-icon">
+                                        <i class="bi bi-check-lg"></i>
+                                    </div>
+
+                                    <div>
+                                        <strong>Sí</strong>
+
+                                        <span>
+                                            Quiero declarar una condición
+                                        </span>
+                                    </div>
+
+                                    <div class="pes-selected-check">
+                                        <i class="bi bi-check"></i>
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- NO -->
+
+                            <div>
+
+                                <input
+                                    type="radio"
+                                    class="pes-choice-input"
+                                    name="es_pes"
+                                    id="es_pes_no"
+                                    value="False"
+
+                                    {% if form.es_pes.value|stringformat:"s" == "False" %}
+                                        checked
+                                    {% endif %}
+                                >
+
+                                <label
+                                    class="pes-choice-card pes-choice-no"
+                                    for="es_pes_no"
+                                >
+
+                                    <div class="pes-choice-icon">
+                                        <i class="bi bi-dash-lg"></i>
+                                    </div>
+
+                                    <div>
+                                        <strong>No</strong>
+
+                                        <span>
+                                            No me identifico actualmente
+                                        </span>
+                                    </div>
+
+                                    <div class="pes-selected-check">
+                                        <i class="bi bi-check"></i>
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         DETALLE PES
+                    ========================================== -->
+
+                    <div
+                        id="pesDetalles"
+                        class="pes-details"
+                    >
+
+
+                        <!-- CONDICIÓN -->
+
+                        <div class="form-section">
+
+                            <label
+                                class="form-label-pro"
+                                for="{{ form.condicion.id_for_label }}"
+                            >
+
+                                <i class="bi bi-list-check"></i>
+
+                                ¿Cuál de estas situaciones corresponde?
+
+                            </label>
+
+                            {{ form.condicion }}
+
+                            {% for error in form.condicion.errors %}
+
+                                <div class="text-danger small mt-2">
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+                                    {{ error }}
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+
+                        <!-- APOYO -->
+
+                        <div class="form-section">
+
+                            <label class="form-label-pro mb-3">
+
+                                <i class="bi bi-people-fill"></i>
+
+                                ¿Consideras que necesitas algún apoyo o adaptación?
+
+                            </label>
+
+
+                            <div class="support-choice-grid">
+
+
+                                <div>
+
+                                    <input
+                                        type="radio"
+                                        class="support-input"
+                                        name="necesita_apoyo"
+                                        id="apoyo_no"
+                                        value="False"
+
+                                        {% if form.necesita_apoyo.value|stringformat:"s" != "True" %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <label
+                                        class="support-card"
+                                        for="apoyo_no"
+                                    >
+
+                                        <i class="bi bi-check-circle"></i>
+
+                                        <span>
+                                            No necesito apoyo
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+
+                                <div>
+
+                                    <input
+                                        type="radio"
+                                        class="support-input"
+                                        name="necesita_apoyo"
+                                        id="apoyo_si"
+                                        value="True"
+
+                                        {% if form.necesita_apoyo.value|stringformat:"s" == "True" %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <label
+                                        class="support-card support-card-help"
+                                        for="apoyo_si"
+                                    >
+
+                                        <i class="bi bi-person-raised-hand"></i>
+
+                                        <span>
+                                            Sí, necesito apoyo
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- COMENTARIO -->
+
+                        <div class="form-section">
+
+                            <label
+                                class="form-label-pro"
+                                for="{{ form.comentario.id_for_label }}"
+                            >
+
+                                <i class="bi bi-chat-left-text-fill"></i>
+
+                                ¿Quieres agregar información?
+
+                            </label>
+
+                            {{ form.comentario }}
+
+                            <div class="form-text mt-2">
+                                Este campo es opcional.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         PRIVACIDAD
+                    ========================================== -->
+
+                    <div class="privacy-notice">
+
+                        <i class="bi bi-shield-lock-fill"></i>
+
+                        <div>
+
+                            <strong>
+                                Información confidencial
+                            </strong>
+
+                            <br>
+
+                            Los datos serán utilizados para identificar
+                            necesidades de prevención, protección y apoyo
+                            laboral, respetando la confidencialidad de la
+                            información.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         ENVIAR
+                    ========================================== -->
+
+                    <button
+                        type="submit"
+                        class="btn btn-send w-100"
+                    >
+
+                        <i class="bi bi-shield-check"></i>
+
+                        Enviar declaración
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const opcionSi = document.getElementById("es_pes_si");
+    const opcionNo = document.getElementById("es_pes_no");
+
+    const detalles = document.getElementById("pesDetalles");
+
+
+    function actualizarFormulario() {
+
+        if (opcionSi.checked) {
+
+            detalles.classList.add("pes-details-visible");
+
+        } else {
+
+            detalles.classList.remove("pes-details-visible");
+
+        }
+
+    }
+
+
+    opcionSi.addEventListener(
+        "change",
+        actualizarFormulario
+    );
+
+
+    opcionNo.addEventListener(
+        "change",
+        actualizarFormulario
+    );
+
+
+    actualizarFormulario();
+
+});
+
+</script>
+
+{% endblock %}

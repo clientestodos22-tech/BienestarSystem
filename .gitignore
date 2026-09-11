@@ -1,0 +1,26 @@
+# Virtualenv
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django
+db.sqlite3
+staticfiles/
+
+# Variables privadas
+.env
+
+# VS Code
+.vscode/
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

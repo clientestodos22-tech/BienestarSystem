@@ -1,0 +1,408 @@
+{% extends "bienestar/base.html" %}
+
+
+{% block title %}
+Solicitudes de apoyo | Bienestar
+{% endblock %}
+
+
+{% block content %}
+
+
+<div
+    class="
+        dashboard-header
+        d-flex
+        flex-wrap
+        justify-content-between
+        align-items-end
+        gap-3
+    "
+>
+
+    <div>
+
+        <div class="dashboard-eyebrow">
+
+            <i class="bi bi-life-preserver"></i>
+
+            Gestión administrativa
+
+        </div>
+
+        <h1>
+            Solicitudes de apoyo
+        </h1>
+
+        <p>
+            Revisa y documenta las atenciones realizadas.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="dashboard-card mt-4">
+
+
+    <!-- FILTROS -->
+
+    <form
+        method="get"
+        class="support-filters"
+    >
+
+        <div class="row g-2">
+
+            <div class="col-lg-5">
+
+                <div class="input-group">
+
+                    <span class="input-group-text">
+
+                        <i class="bi bi-search"></i>
+
+                    </span>
+
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control"
+                        value="{{ busqueda }}"
+                        placeholder="Buscar trabajador..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-4">
+
+                <select
+                    name="estado"
+                    class="form-select"
+                >
+
+                    <option
+                        value="abiertas"
+                        {% if estado_actual == "abiertas" %}selected{% endif %}
+                    >
+                        Solicitudes abiertas
+                    </option>
+
+                    <option
+                        value="pendiente"
+                        {% if estado_actual == "pendiente" %}selected{% endif %}
+                    >
+                        Pendientes
+                    </option>
+
+                    <option
+                        value="en_proceso"
+                        {% if estado_actual == "en_proceso" %}selected{% endif %}
+                    >
+                        En proceso
+                    </option>
+
+                    <option
+                        value="atendida"
+                        {% if estado_actual == "atendida" %}selected{% endif %}
+                    >
+                        Atendidas
+                    </option>
+
+                    <option
+                        value="todas"
+                        {% if estado_actual == "todas" %}selected{% endif %}
+                    >
+                        Todas
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="col-lg-3">
+
+                <button
+                    class="btn btn-primary w-100"
+                >
+
+                    <i class="bi bi-funnel-fill me-1"></i>
+
+                    Aplicar filtros
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+    <div class="table-responsive">
+
+        <table class="table pro-table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Trabajador
+                    </th>
+
+                    <th>
+                        Percepción
+                    </th>
+
+                    <th>
+                        Apoyo
+                    </th>
+
+                    <th>
+                        Estado
+                    </th>
+
+                    <th>
+                        Última atención
+                    </th>
+
+                    <th>
+                        Responsable
+                    </th>
+
+                    <th></th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for solicitud in pagina %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            {{ solicitud.percepcion.usuario.get_full_name|default:solicitud.percepcion.usuario.username }}
+
+                        </strong>
+
+                        <small class="d-block text-muted">
+
+                            @{{ solicitud.percepcion.usuario.username }}
+
+                        </small>
+
+                    </td>
+
+
+                    <td>
+
+                        {{ solicitud.percepcion.get_emocion_display }}
+
+                        <small class="d-block text-muted">
+
+                            {{ solicitud.percepcion.get_momento_display }}
+
+                        </small>
+
+                    </td>
+
+
+                    <td>
+
+                        {{ solicitud.percepcion.get_tipo_apoyo_display }}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if solicitud.estado == "pendiente" %}
+
+                            <span class="status-pill status-pending">
+
+                                Pendiente
+
+                            </span>
+
+                        {% elif solicitud.estado == "en_proceso" %}
+
+                            <span class="status-pill status-process">
+
+                                En proceso
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-pill status-done">
+
+                                Atendida
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if solicitud.fecha_ultima_atencion %}
+
+                            {{ solicitud.fecha_ultima_atencion|date:"d/m/Y H:i" }}
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                Sin atención
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if solicitud.atendido_por %}
+
+                            {{ solicitud.atendido_por.username }}
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                —
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td class="text-end">
+
+                        <a
+                            href="{% url 'atender_solicitud' solicitud.pk %}"
+                            class="btn btn-sm btn-primary"
+                        >
+
+                            {% if solicitud.estado == "atendida" %}
+
+                                Ver registro
+
+                            {% else %}
+
+                                Atender
+
+                            {% endif %}
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="text-center py-5"
+                    >
+
+                        No existen solicitudes con estos filtros.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% if pagina.paginator.num_pages > 1 %}
+
+    <div class="d-flex justify-content-center py-3">
+
+        <nav>
+
+            <ul class="pagination mb-0">
+
+                {% if pagina.has_previous %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?page={{ pagina.previous_page_number }}&estado={{ estado_actual }}&q={{ busqueda }}"
+                        >
+
+                            Anterior
+
+                        </a>
+
+                    </li>
+
+                {% endif %}
+
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+
+                        {{ pagina.number }}
+                        /
+                        {{ pagina.paginator.num_pages }}
+
+                    </span>
+
+                </li>
+
+
+                {% if pagina.has_next %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="?page={{ pagina.next_page_number }}&estado={{ estado_actual }}&q={{ busqueda }}"
+                        >
+
+                            Siguiente
+
+                        </a>
+
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,3135 @@
+{% extends "bienestar/base.html" %}
+
+
+{% block title %}
+Dashboard | Bienestar
+{% endblock %}
+
+
+{% block content %}
+
+
+<style>
+
+/* =========================================================
+   DASHBOARD - DISEÑO EXCLUSIVO
+========================================================= */
+
+.dashboard-shell {
+    --dash-primary: #5b5cf0;
+    --dash-primary-soft: #eeeeff;
+
+    --dash-purple: #8b5cf6;
+    --dash-purple-soft: #f4efff;
+
+    --dash-orange: #f97316;
+    --dash-orange-soft: #fff2e8;
+
+    --dash-green: #16a05d;
+    --dash-green-soft: #eafaf1;
+
+    --dash-red: #ef4444;
+    --dash-red-soft: #fff0f0;
+
+    --dash-text: #172033;
+    --dash-muted: #748094;
+    --dash-border: #e8ecf2;
+    --dash-bg: #f6f8fc;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   CABECERA
+========================================================= */
+
+.dashboard-hero {
+    position: relative;
+
+    padding: 28px 30px;
+
+    margin-bottom: 22px;
+
+    overflow: hidden;
+
+    border:
+        1px solid rgba(91, 92, 240, .12);
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f8f8ff 55%,
+            #f2f2ff 100%
+        );
+
+    box-shadow:
+        0 12px 38px rgba(31, 42, 68, .06);
+}
+
+
+.dashboard-hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 230px;
+    height: 230px;
+
+    right: -90px;
+    top: -110px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(91, 92, 240, .15),
+            rgba(139, 92, 246, .05)
+        );
+}
+
+
+.dashboard-hero-content {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+}
+
+
+.dashboard-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding:
+        6px
+        11px;
+
+    margin-bottom: 9px;
+
+    border-radius: 999px;
+
+    background: var(--dash-primary-soft);
+
+    color: var(--dash-primary);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: .25px;
+
+    text-transform: uppercase;
+}
+
+
+.dashboard-title {
+    margin: 0;
+
+    color: var(--dash-text);
+
+    font-size: clamp(25px, 3vw, 34px);
+
+    font-weight: 850;
+
+    letter-spacing: -.8px;
+}
+
+
+.dashboard-subtitle {
+    max-width: 620px;
+
+    margin:
+        7px
+        0
+        0;
+
+    color: var(--dash-muted);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+.dashboard-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    flex-wrap: wrap;
+}
+
+
+.dashboard-actions .btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 42px;
+
+    padding:
+        9px
+        15px;
+
+    border-radius: 11px;
+
+    font-size: 13px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.kpi-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+
+.kpi-card {
+    --kpi-color: var(--dash-primary);
+    --kpi-soft: var(--dash-primary-soft);
+
+    position: relative;
+
+    min-width: 0;
+    min-height: 170px;
+
+    padding: 20px;
+
+    overflow: hidden;
+
+    border:
+        1px solid var(--dash-border);
+
+    border-radius: 20px;
+
+    background: white;
+
+    box-shadow:
+        0 8px 28px rgba(31, 42, 68, .055);
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
+
+.kpi-card:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 14px 35px rgba(31, 42, 68, .09);
+}
+
+
+.kpi-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 4px;
+
+    background:
+        var(--kpi-color);
+}
+
+
+.kpi-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    right: -45px;
+    bottom: -45px;
+
+    border-radius: 50%;
+
+    background:
+        var(--kpi-color);
+
+    opacity: .05;
+}
+
+
+.kpi-blue {
+    --kpi-color: #5b5cf0;
+    --kpi-soft: #eeeeff;
+}
+
+
+.kpi-purple {
+    --kpi-color: #8b5cf6;
+    --kpi-soft: #f4efff;
+}
+
+
+.kpi-orange {
+    --kpi-color: #f97316;
+    --kpi-soft: #fff2e8;
+}
+
+
+.kpi-green {
+    --kpi-color: #16a05d;
+    --kpi-soft: #eafaf1;
+}
+
+
+.kpi-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+
+.kpi-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        var(--kpi-soft);
+
+    color:
+        var(--kpi-color);
+
+    font-size: 20px;
+}
+
+
+.kpi-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding:
+        5px
+        8px;
+
+    border-radius: 999px;
+
+    background: #f3f5f8;
+
+    color: #758195;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: .25px;
+
+    text-transform: uppercase;
+}
+
+
+.kpi-badge-alert {
+    background: #fff2e8;
+
+    color: #c1520b;
+}
+
+
+.kpi-label {
+    margin-top: 16px;
+
+    color: var(--dash-muted);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+.kpi-number {
+    margin-top: 2px;
+
+    color: var(--dash-text);
+
+    font-size: 34px;
+
+    font-weight: 850;
+
+    line-height: 1.1;
+}
+
+
+.kpi-footer {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap:
+        5px
+        10px;
+
+    margin-top: 8px;
+
+    color: #929bad;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+.kpi-footer span {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+
+/* =========================================================
+   CARD GENERAL DASHBOARD
+========================================================= */
+
+.dash-card {
+    border:
+        1px solid var(--dash-border);
+
+    border-radius: 21px;
+
+    background: white;
+
+    box-shadow:
+        0 8px 28px rgba(31, 42, 68, .05);
+
+    overflow: hidden;
+}
+
+
+.dash-card-body {
+    padding: 22px;
+}
+
+
+.dash-card-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 18px;
+
+    padding:
+        20px
+        22px;
+
+    border-bottom:
+        1px solid #eef1f5;
+}
+
+
+.dash-card-title {
+    margin: 0;
+
+    color: var(--dash-text);
+
+    font-size: 16px;
+
+    font-weight: 800;
+}
+
+
+.dash-card-description {
+    margin:
+        4px
+        0
+        0;
+
+    color: var(--dash-muted);
+
+    font-size: 11px;
+}
+
+
+.dash-section-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background: var(--dash-primary-soft);
+
+    color: var(--dash-primary);
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.btn-dashboard-outline {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    border:
+        1px solid #d8ddff;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: #5557de;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    transition:
+        background .15s ease,
+        border .15s ease;
+}
+
+
+.btn-dashboard-outline:hover {
+    border-color: #bfc6ff;
+
+    background: #f6f6ff;
+
+    color: #4345c5;
+}
+
+
+/* =========================================================
+   TABLAS
+========================================================= */
+
+.dashboard-table {
+    width: 100%;
+
+    margin: 0;
+}
+
+
+.dashboard-table thead th {
+    padding:
+        12px
+        15px;
+
+    border-bottom:
+        1px solid #e6eaf0;
+
+    background: #fafbfc;
+
+    color: #687487;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: .32px;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+
+.dashboard-table tbody td {
+    padding:
+        14px
+        15px;
+
+    border-bottom:
+        1px solid #f0f2f5;
+
+    color: #354052;
+
+    font-size: 12px;
+
+    vertical-align: middle;
+}
+
+
+.dashboard-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+.dashboard-table tbody tr {
+    transition:
+        background .15s ease;
+}
+
+
+.dashboard-table tbody tr:hover {
+    background: #fafbff;
+}
+
+
+/* =========================================================
+   PERSONA
+========================================================= */
+
+.worker-cell {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 150px;
+}
+
+
+.worker-avatar {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5b5cf0,
+            #8b5cf6
+        );
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 850;
+
+    box-shadow:
+        0 5px 12px rgba(91, 92, 240, .18);
+}
+
+
+.worker-name {
+    display: block;
+
+    color: #293548;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+.worker-username {
+    display: block;
+
+    margin-top: 1px;
+
+    color: #9aa2b1;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   EMOCIÓN
+========================================================= */
+
+.emotion-chip {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    max-width: 220px;
+
+    padding:
+        7px
+        10px;
+
+    border-radius: 11px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--emotion-color) 10%,
+            white
+        );
+}
+
+
+.emotion-chip-emoji {
+    font-size: 18px;
+
+    line-height: 1;
+}
+
+
+.emotion-chip-name {
+    color: #3d4758;
+
+    font-size: 11px;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   MOMENTO
+========================================================= */
+
+.moment-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        6px
+        9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.moment-entry {
+    background: #fff7d8;
+
+    color: #a96308;
+}
+
+
+.moment-exit {
+    background: #f3eaff;
+
+    color: #6d36bd;
+}
+
+
+/* =========================================================
+   APOYO
+========================================================= */
+
+.support-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        6px
+        9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 750;
+}
+
+
+.support-no {
+    background: #eafaf1;
+
+    color: #0d7f48;
+}
+
+
+.support-yes {
+    background: #fff2e8;
+
+    color: #ba4d08;
+}
+
+
+/* =========================================================
+   ESTADOS SOLICITUD
+========================================================= */
+
+.request-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding:
+        6px
+        9px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+
+.request-pending {
+    background: #fff2e8;
+
+    color: #b54708;
+}
+
+
+.request-progress {
+    background: #eeeeff;
+
+    color: #4f51ca;
+}
+
+
+.request-done {
+    background: #eafaf1;
+
+    color: #087b46;
+}
+
+
+/* =========================================================
+   COMENTARIO
+========================================================= */
+
+.comment-text {
+    display: block;
+
+    max-width: 240px;
+
+    overflow: hidden;
+
+    color: #536072;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   HORA + BOTÓN
+========================================================= */
+
+.time-management {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 145px;
+}
+
+
+.time-management-date {
+    min-width: 48px;
+}
+
+
+.time-management-time {
+    display: block;
+
+    color: #293548;
+
+    font-size: 12px;
+
+    font-weight: 850;
+}
+
+
+.time-management-day {
+    display: block;
+
+    margin-top: 1px;
+
+    color: #9aa3b1;
+
+    font-size: 9px;
+}
+
+
+.btn-attend {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    min-height: 31px;
+
+    padding:
+        6px
+        10px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5b5cf0,
+            #754ee8
+        );
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 5px 14px rgba(91, 92, 240, .20);
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+}
+
+
+.btn-attend:hover {
+    color: white;
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 8px 19px rgba(91, 92, 240, .28);
+}
+
+
+/* =========================================================
+   GRÁFICOS
+========================================================= */
+
+.dashboard-charts {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 5fr)
+        minmax(0, 7fr);
+
+    gap: 18px;
+
+    margin-top: 22px;
+}
+
+
+.chart-box {
+    position: relative;
+
+    height: 320px;
+}
+
+
+.chart-box-wide {
+    height: 280px;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.dashboard-empty {
+    padding:
+        45px
+        20px;
+
+    text-align: center;
+}
+
+
+.dashboard-empty-icon {
+    width: 52px;
+    height: 52px;
+
+    margin:
+        0
+        auto
+        12px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 16px;
+
+    background: #f3f5f8;
+
+    font-size: 25px;
+}
+
+
+.dashboard-empty h6 {
+    margin-bottom: 5px;
+
+    color: #344054;
+
+    font-weight: 800;
+}
+
+
+.dashboard-empty p {
+    margin: 0;
+
+    color: #98a2b3;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   MOBILE / TABLET
+========================================================= */
+
+@media (max-width: 1199px) {
+
+    .kpi-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 991px) {
+
+    .dashboard-charts {
+        grid-template-columns: 1fr;
+    }
+
+
+    .dashboard-hero-content {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .dashboard-actions {
+        width: 100%;
+    }
+
+
+    .dashboard-actions .btn {
+        flex: 1;
+    }
+
+}
+
+
+@media (max-width: 767px) {
+
+    .dashboard-hero {
+        padding: 21px;
+    }
+
+
+    .dashboard-title {
+        font-size: 25px;
+    }
+
+
+    .kpi-grid {
+        gap: 10px;
+    }
+
+
+    .kpi-card {
+        min-height: 150px;
+
+        padding: 16px;
+    }
+
+
+    .kpi-number {
+        font-size: 29px;
+    }
+
+
+    .dash-card-header {
+        align-items: flex-start;
+
+        padding:
+            17px
+            16px;
+    }
+
+
+    .dashboard-table {
+        min-width: 850px;
+    }
+
+
+    .chart-box {
+        height: 280px;
+    }
+
+
+    .chart-box-wide {
+        height: 240px;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .dashboard-actions {
+        flex-direction: column;
+    }
+
+
+    .dashboard-actions .btn {
+        width: 100%;
+    }
+
+
+    .kpi-card {
+        min-height: 135px;
+    }
+
+}
+
+</style>
+
+
+
+<div class="dashboard-shell">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="dashboard-hero">
+
+        <div class="dashboard-hero-content">
+
+            <div>
+
+                <div class="dashboard-eyebrow">
+
+                    <i class="bi bi-grid-1x2-fill"></i>
+
+                    Panel administrativo
+
+                </div>
+
+
+                <h1 class="dashboard-title">
+
+                    Dashboard de Bienestar
+
+                </h1>
+
+
+                <p class="dashboard-subtitle">
+
+                    Monitorea la percepción emocional del equipo,
+                    identifica solicitudes de apoyo y realiza seguimiento
+                    de las atenciones desde un solo lugar.
+
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-actions">
+
+                <a
+                    href="{% url 'listado_solicitudes' %}"
+                    class="btn btn-primary"
+                >
+
+                    <i class="bi bi-life-preserver"></i>
+
+                    Solicitudes
+
+                    {% if solicitudes_abiertas > 0 %}
+
+                        <span class="badge bg-light text-primary ms-1">
+
+                            {{ solicitudes_abiertas }}
+
+                        </span>
+
+                    {% endif %}
+
+                </a>
+
+
+                <a
+                    href="{% url 'listado_usuarios' %}"
+                    class="btn btn-outline-primary"
+                >
+
+                    <i class="bi bi-people-fill"></i>
+
+                    Usuarios
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+<!-- =====================================================
+     ACCESOS RÁPIDOS - FORMULARIOS
+====================================================== -->
+
+<section class="admin-form-shortcuts">
+
+    <div class="admin-form-shortcuts-header">
+
+        <div>
+
+            <span class="admin-form-shortcuts-eyebrow">
+
+                <i class="bi bi-ui-checks-grid"></i>
+
+                Formularios
+
+            </span>
+
+            <h2>
+                Accesos rápidos
+            </h2>
+
+            <p>
+                Abre directamente los formularios disponibles
+                del sistema.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="admin-form-grid">
+
+
+        <!-- =============================================
+             PES
+        ============================================== -->
+
+        <a
+            href="{% url 'formulario_pes' %}"
+            class="admin-form-card admin-form-pes"
+        >
+
+            <div class="admin-form-icon">
+
+                <i class="bi bi-shield-fill-check"></i>
+
+            </div>
+
+
+            <div class="admin-form-content">
+
+                <span class="admin-form-tag">
+                    PES
+                </span>
+
+                <h3>
+                    Personas Especialmente Sensibles
+                </h3>
+
+                <p>
+                    Registrar declaración y posibles
+                    necesidades de apoyo.
+                </p>
+
+            </div>
+
+
+            <div class="admin-form-arrow">
+
+                <i class="bi bi-arrow-right"></i>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- =============================================
+             ENTRADA
+        ============================================== -->
+
+        <a
+            href="{% url 'formulario_emocional' %}?momento=entrada"
+            class="admin-form-card admin-form-entry"
+        >
+
+            <div class="admin-form-icon">
+
+                <i class="bi bi-sunrise-fill"></i>
+
+            </div>
+
+
+            <div class="admin-form-content">
+
+                <span class="admin-form-tag">
+                    ENTRADA
+                </span>
+
+                <h3>
+                    Percepción emocional
+                </h3>
+
+                <p>
+                    Registrar cómo se siente la persona
+                    al comenzar su jornada.
+                </p>
+
+            </div>
+
+
+            <div class="admin-form-arrow">
+
+                <i class="bi bi-arrow-right"></i>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- =============================================
+             SALIDA
+        ============================================== -->
+
+        <a
+            href="{% url 'formulario_emocional' %}?momento=salida"
+            class="admin-form-card admin-form-exit"
+        >
+
+            <div class="admin-form-icon">
+
+                <i class="bi bi-sunset-fill"></i>
+
+            </div>
+
+
+            <div class="admin-form-content">
+
+                <span class="admin-form-tag">
+                    SALIDA
+                </span>
+
+                <h3>
+                    Percepción emocional
+                </h3>
+
+                <p>
+                    Registrar cómo finaliza la persona
+                    su jornada laboral.
+                </p>
+
+            </div>
+
+
+            <div class="admin-form-arrow">
+
+                <i class="bi bi-arrow-right"></i>
+
+            </div>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+    <!-- =====================================================
+         KPI
+    ====================================================== -->
+
+    <section class="kpi-grid">
+
+
+        <!-- CHECK IN -->
+
+        <article class="kpi-card kpi-blue">
+
+            <div class="kpi-top">
+
+                <div class="kpi-icon">
+
+                    <i class="bi bi-clipboard2-pulse-fill"></i>
+
+                </div>
+
+                <div class="kpi-badge">
+
+                    Hoy
+
+                </div>
+
+            </div>
+
+
+            <div class="kpi-label">
+
+                Check-ins realizados
+
+            </div>
+
+
+            <div class="kpi-number">
+
+                {{ total_emociones }}
+
+            </div>
+
+
+            <div class="kpi-footer">
+
+                <span>
+
+                    <i class="bi bi-sunrise-fill"></i>
+
+                    {{ entradas_hoy }} entrada
+
+                </span>
+
+                <span>
+
+                    <i class="bi bi-sunset-fill"></i>
+
+                    {{ salidas_hoy }} salida
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- PES -->
+
+        <article class="kpi-card kpi-purple">
+
+            <div class="kpi-top">
+
+                <div class="kpi-icon">
+
+                    <i class="bi bi-person-heart"></i>
+
+                </div>
+
+                <div class="kpi-badge">
+
+                    PES
+
+                </div>
+
+            </div>
+
+
+            <div class="kpi-label">
+
+                Personas identificadas
+
+            </div>
+
+
+            <div class="kpi-number">
+
+                {{ total_pes }}
+
+            </div>
+
+
+            <div class="kpi-footer">
+
+                <span>
+
+                    <i class="bi bi-shield-check"></i>
+
+                    Declaraciones vigentes
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- SOLICITUDES ABIERTAS -->
+
+        <article class="kpi-card kpi-orange">
+
+            <div class="kpi-top">
+
+                <div class="kpi-icon">
+
+                    <i class="bi bi-person-raised-hand"></i>
+
+                </div>
+
+
+                {% if solicitudes_abiertas > 0 %}
+
+                    <div class="kpi-badge kpi-badge-alert">
+
+                        Requiere atención
+
+                    </div>
+
+                {% else %}
+
+                    <div class="kpi-badge">
+
+                        Sin pendientes
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="kpi-label">
+
+                Solicitudes abiertas
+
+            </div>
+
+
+            <div class="kpi-number">
+
+                {{ solicitudes_abiertas }}
+
+            </div>
+
+
+            <div class="kpi-footer">
+
+                <span>
+
+                    <i class="bi bi-clock-fill"></i>
+
+                    {{ solicitudes_pendientes }} pendientes
+
+                </span>
+
+                <span>
+
+                    <i class="bi bi-arrow-repeat"></i>
+
+                    {{ solicitudes_proceso }} en proceso
+
+                </span>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ATENDIDAS -->
+
+        <article class="kpi-card kpi-green">
+
+            <div class="kpi-top">
+
+                <div class="kpi-icon">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                </div>
+
+                <div class="kpi-badge">
+
+                    Hoy
+
+                </div>
+
+            </div>
+
+
+            <div class="kpi-label">
+
+                Solicitudes atendidas
+
+            </div>
+
+
+            <div class="kpi-number">
+
+                {{ atendidas_hoy }}
+
+            </div>
+
+
+            <div class="kpi-footer">
+
+                <span>
+
+                    <i class="bi bi-check2-circle"></i>
+
+                    Casos cerrados hoy
+
+                </span>
+
+            </div>
+
+        </article>
+
+    </section>
+
+<!-- =====================================================
+     SOLICITUDES DE APOYO
+====================================================== -->
+
+<section class="dash-card mb-4">
+
+    <div class="dash-card-header">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div
+                class="dash-section-icon"
+                style="
+                    background: #fff2e8;
+                    color: #f97316;
+                "
+            >
+                <i class="bi bi-person-raised-hand"></i>
+            </div>
+
+            <div>
+
+                <h2 class="dash-card-title">
+                    Solicitudes de apoyo
+                </h2>
+
+                <p class="dash-card-description">
+                    Casos que requieren atención o seguimiento
+                    por parte del equipo líder.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'listado_solicitudes' %}"
+            class="btn btn-dashboard-outline"
+        >
+
+            <i class="bi bi-list-check"></i>
+
+            Ver todas
+
+            <i class="bi bi-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+
+    {% if solicitudes_abiertas > 0 %}
+
+    <div
+        class="px-4 py-3"
+        style="
+            background:
+                linear-gradient(
+                    90deg,
+                    #fffaf5,
+                    #ffffff
+                );
+
+            border-bottom:
+                1px solid #f4eee8;
+        "
+    >
+
+        <div
+            class="
+                d-flex
+                flex-wrap
+                align-items-center
+                gap-3
+            "
+        >
+
+            <span
+                class="request-status request-pending"
+            >
+
+                <i class="bi bi-exclamation-circle-fill"></i>
+
+                {{ solicitudes_abiertas }}
+                solicitud{{ solicitudes_abiertas|pluralize:"es" }}
+                abierta{{ solicitudes_abiertas|pluralize:"s" }}
+
+            </span>
+
+
+            <small class="text-muted">
+
+                <strong>
+                    {{ solicitudes_pendientes }}
+                </strong>
+                pendiente{{ solicitudes_pendientes|pluralize:"s" }}
+
+                &nbsp;•&nbsp;
+
+                <strong>
+                    {{ solicitudes_proceso }}
+                </strong>
+                en proceso
+
+            </small>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <div class="table-responsive">
+
+        <table class="table dashboard-table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Trabajador
+                    </th>
+
+                    <th>
+                        Percepción
+                    </th>
+
+                    <th>
+                        Apoyo solicitado
+                    </th>
+
+                    <th>
+                        Estado
+                    </th>
+
+                    <th>
+                        Responsable
+                    </th>
+
+                    <th>
+                        Fecha / gestión
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for solicitud in solicitudes_recientes %}
+
+                <tr>
+
+
+                    <!-- TRABAJADOR -->
+
+                    <td>
+
+                        <div class="worker-cell">
+
+                            <div class="worker-avatar">
+
+                                {{ solicitud.percepcion.usuario.username|first|upper }}
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="worker-name">
+
+                                    {{ solicitud.percepcion.usuario.get_full_name|default:solicitud.percepcion.usuario.username }}
+
+                                </span>
+
+                                <span class="worker-username">
+
+                                    @{{ solicitud.percepcion.usuario.username }}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- PERCEPCIÓN -->
+
+                    <td>
+
+                        <strong>
+
+                            {{ solicitud.percepcion.get_emocion_display }}
+
+                        </strong>
+
+                        <small class="d-block text-muted">
+
+                            {% if solicitud.percepcion.momento == "entrada" %}
+
+                                <i class="bi bi-sunrise-fill me-1"></i>
+                                Entrada
+
+                            {% else %}
+
+                                <i class="bi bi-sunset-fill me-1"></i>
+                                Salida
+
+                            {% endif %}
+
+                        </small>
+
+                    </td>
+
+
+                    <!-- APOYO -->
+
+                    <td>
+
+                        <span class="support-badge support-yes">
+
+                            <i class="bi bi-person-raised-hand"></i>
+
+                            {{ solicitud.percepcion.get_tipo_apoyo_display }}
+
+                        </span>
+
+                    </td>
+
+
+                    <!-- ESTADO -->
+
+                    <td>
+
+                        {% if solicitud.estado == "pendiente" %}
+
+                            <span
+                                class="
+                                    request-status
+                                    request-pending
+                                "
+                            >
+
+                                <i class="bi bi-clock-fill"></i>
+
+                                Pendiente
+
+                            </span>
+
+
+                        {% elif solicitud.estado == "en_proceso" %}
+
+                            <span
+                                class="
+                                    request-status
+                                    request-progress
+                                "
+                            >
+
+                                <i class="bi bi-arrow-repeat"></i>
+
+                                En proceso
+
+                            </span>
+
+
+                        {% else %}
+
+                            <span
+                                class="
+                                    request-status
+                                    request-done
+                                "
+                            >
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Atendida
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- RESPONSABLE -->
+
+                    <td>
+
+                        {% if solicitud.atendido_por %}
+
+                            <div class="d-flex align-items-center gap-2">
+
+                                <div
+                                    class="worker-avatar"
+                                    style="
+                                        width: 30px;
+                                        height: 30px;
+                                        font-size: 10px;
+                                    "
+                                >
+
+                                    {{ solicitud.atendido_por.username|first|upper }}
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="worker-name">
+
+                                        {{ solicitud.atendido_por.get_full_name|default:solicitud.atendido_por.username }}
+
+                                    </span>
+
+                                    <span class="worker-username">
+
+                                        @{{ solicitud.atendido_por.username }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        {% else %}
+
+                            <span class="text-muted">
+
+                                <i class="bi bi-person-dash me-1"></i>
+
+                                Sin asignar
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- FECHA + ATENDER -->
+
+                    <td>
+
+                        <div class="time-management">
+
+                            <div class="time-management-date">
+
+                                <span class="time-management-time">
+
+                                    {{ solicitud.fecha_creacion|date:"H:i" }}
+
+                                </span>
+
+                                <span class="time-management-day">
+
+                                    {{ solicitud.fecha_creacion|date:"d/m/Y" }}
+
+                                </span>
+
+                            </div>
+
+
+                            <a
+                                href="{% url 'atender_solicitud' solicitud.pk %}"
+                                class="btn-attend"
+                            >
+
+                                {% if solicitud.estado == "atendida" %}
+
+                                    <i class="bi bi-eye-fill"></i>
+
+                                    Ver
+
+                                {% elif solicitud.estado == "en_proceso" %}
+
+                                    <i class="bi bi-arrow-repeat"></i>
+
+                                    Continuar
+
+                                {% else %}
+
+                                    <i class="bi bi-person-check-fill"></i>
+
+                                    Atender
+
+                                {% endif %}
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <div class="dashboard-empty">
+
+                            <div
+                                class="dashboard-empty-icon"
+                                style="
+                                    background:#eafaf1;
+                                    color:#16a05d;
+                                "
+                            >
+
+                                <i class="bi bi-check2-circle"></i>
+
+                            </div>
+
+
+                            <h6>
+                                Todo al día
+                            </h6>
+
+                            <p>
+                                Actualmente no existen solicitudes
+                                de apoyo registradas.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+    <!-- =====================================================
+     PERCEPCIONES EMOCIONALES DE HOY
+====================================================== -->
+
+<section class="dash-card">
+
+    <div class="dash-card-header">
+
+        <div class="d-flex align-items-center gap-3">
+
+            <div class="dash-section-icon">
+
+                <i class="bi bi-emoji-smile-fill"></i>
+
+            </div>
+
+
+            <div>
+
+                <h2 class="dash-card-title">
+
+                    Percepciones emocionales de hoy
+
+                </h2>
+
+                <p class="dash-card-description">
+
+                    Todas las respuestas registradas durante
+                    la jornada.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'listado_emociones' %}"
+            class="btn btn-dashboard-outline"
+        >
+
+            <i class="bi bi-clock-history"></i>
+
+            Ver historial
+
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table dashboard-table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Trabajador
+                    </th>
+
+                    <th>
+                        Percepción
+                    </th>
+
+                    <th>
+                        Momento
+                    </th>
+
+                    <th>
+                        Apoyo
+                    </th>
+
+                    <th>
+                        Comentario
+                    </th>
+
+                    <th>
+                        Hora
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in percepciones_recientes %}
+
+                {% with respuesta=item.registro %}
+
+                <tr>
+
+
+                    <!-- TRABAJADOR -->
+
+                    <td>
+
+                        <div class="worker-cell">
+
+                            <div class="worker-avatar">
+
+                                {{ respuesta.usuario.username|first|upper }}
+
+                            </div>
+
+
+                            <div>
+
+                                <span class="worker-name">
+
+                                    {{ respuesta.usuario.get_full_name|default:respuesta.usuario.username }}
+
+                                </span>
+
+                                <span class="worker-username">
+
+                                    @{{ respuesta.usuario.username }}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- PERCEPCIÓN -->
+
+                    <td>
+
+                        <div
+                            class="emotion-chip"
+                            style="
+                                --emotion-color:
+                                {{ item.color }};
+                            "
+                        >
+
+                            <span class="emotion-chip-emoji">
+
+                                {{ item.emoji }}
+
+                            </span>
+
+                            <span class="emotion-chip-name">
+
+                                {{ respuesta.get_emocion_display }}
+
+                            </span>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- MOMENTO -->
+
+                    <td>
+
+                        {% if respuesta.momento == "entrada" %}
+
+                            <span
+                                class="
+                                    moment-badge
+                                    moment-entry
+                                "
+                            >
+
+                                <i class="bi bi-sunrise-fill"></i>
+
+                                Entrada
+
+                            </span>
+
+                        {% else %}
+
+                            <span
+                                class="
+                                    moment-badge
+                                    moment-exit
+                                "
+                            >
+
+                                <i class="bi bi-sunset-fill"></i>
+
+                                Salida
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- APOYO -->
+
+                    <td>
+
+                        {% if respuesta.tipo_apoyo == "ninguno" %}
+
+                            <span
+                                class="
+                                    support-badge
+                                    support-no
+                                "
+                            >
+
+                                <i class="bi bi-check-circle-fill"></i>
+
+                                Sin apoyo
+
+                            </span>
+
+                        {% else %}
+
+                            <span
+                                class="
+                                    support-badge
+                                    support-yes
+                                "
+                            >
+
+                                <i class="bi bi-person-raised-hand"></i>
+
+                                {{ respuesta.get_tipo_apoyo_display }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- COMENTARIO -->
+
+                    <td>
+
+                        {% if respuesta.comentario %}
+
+                            <span
+                                class="comment-text"
+                                title="{{ respuesta.comentario }}"
+                            >
+
+                                {{ respuesta.comentario }}
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="text-muted">
+
+                                Sin comentario
+
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- HORA -->
+
+                    <td>
+
+                        <div class="time-management-date">
+
+                            <span class="time-management-time">
+
+                                {{ respuesta.fecha|date:"H:i" }}
+
+                            </span>
+
+                            <span class="time-management-day">
+
+                                {{ respuesta.fecha|date:"d/m/Y" }}
+
+                            </span>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endwith %}
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <div class="dashboard-empty">
+
+                            <div class="dashboard-empty-icon">
+
+                                😊
+
+                            </div>
+
+                            <h6>
+                                Aún no hay registros hoy
+                            </h6>
+
+                            <p>
+                                Las percepciones aparecerán aquí
+                                automáticamente.
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+    <!-- =====================================================
+         GRÁFICOS PRINCIPALES
+    ====================================================== -->
+
+    <section class="dashboard-charts">
+
+
+        <!-- DONUT -->
+
+        <div class="dash-card">
+
+            <div class="dash-card-header">
+
+                <div>
+
+                    <h2 class="dash-card-title">
+
+                        Percepción de hoy
+
+                    </h2>
+
+                    <p class="dash-card-description">
+
+                        Distribución emocional actual.
+
+                    </p>
+
+                </div>
+
+
+                <div class="dash-section-icon">
+
+                    <i class="bi bi-emoji-smile-fill"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="dash-card-body">
+
+                <div class="chart-box">
+
+                    <canvas
+                        id="emotionChart"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ENTRADA VS SALIDA -->
+
+        <div class="dash-card">
+
+            <div class="dash-card-header">
+
+                <div>
+
+                    <h2 class="dash-card-title">
+
+                        Entrada vs. salida
+
+                    </h2>
+
+                    <p class="dash-card-description">
+
+                        Comparación del estado emocional
+                        durante la jornada.
+
+                    </p>
+
+                </div>
+
+
+                <div class="dash-section-icon">
+
+                    <i class="bi bi-arrow-left-right"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="dash-card-body">
+
+                <div class="chart-box">
+
+                    <canvas
+                        id="entradaSalidaChart"
+                    ></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         TENDENCIA
+    ====================================================== -->
+
+    <section class="dash-card mt-4">
+
+        <div class="dash-card-header">
+
+            <div>
+
+                <h2 class="dash-card-title">
+
+                    Tendencia últimos 7 días
+
+                </h2>
+
+                <p class="dash-card-description">
+
+                    Evolución de check-ins y solicitudes
+                    de apoyo.
+
+                </p>
+
+            </div>
+
+
+            <div class="dash-section-icon">
+
+                <i class="bi bi-graph-up-arrow"></i>
+
+            </div>
+
+        </div>
+
+
+        <div class="dash-card-body">
+
+            <div class="chart-box chart-box-wide">
+
+                <canvas
+                    id="trendChart"
+                ></canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+<!-- =====================================================
+     DATOS CHART.JS
+====================================================== -->
+
+{{ emotion_chart|json_script:"emotion-chart-data" }}
+
+{{ entrada_salida_chart|json_script:"entrada-salida-data" }}
+
+{{ trend_chart|json_script:"trend-chart-data" }}
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"
+></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        /* =================================================
+           CONFIGURACIÓN GLOBAL
+        ================================================= */
+
+        Chart.defaults.font.family =
+            'Inter, "Segoe UI", sans-serif';
+
+        Chart.defaults.color =
+            "#748094";
+
+
+        /* =================================================
+           DATOS
+        ================================================= */
+
+        const emotionData =
+            JSON.parse(
+                document
+                .getElementById(
+                    "emotion-chart-data"
+                )
+                .textContent
+            );
+
+
+        const jornadaData =
+            JSON.parse(
+                document
+                .getElementById(
+                    "entrada-salida-data"
+                )
+                .textContent
+            );
+
+
+        const trendData =
+            JSON.parse(
+                document
+                .getElementById(
+                    "trend-chart-data"
+                )
+                .textContent
+            );
+
+
+        /* =================================================
+           DOUGHNUT
+        ================================================= */
+
+        new Chart(
+            document.getElementById(
+                "emotionChart"
+            ),
+            {
+                type: "doughnut",
+
+                data: {
+
+                    labels:
+                        emotionData.labels,
+
+                    datasets: [
+                        {
+                            data:
+                                emotionData.data,
+
+                            backgroundColor:
+                                emotionData.colors,
+
+                            borderColor:
+                                "#ffffff",
+
+                            borderWidth: 3,
+
+                            hoverOffset: 8,
+                        }
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    cutout: "68%",
+
+                    plugins: {
+
+                        legend: {
+
+                            position: "bottom",
+
+                            labels: {
+
+                                usePointStyle: true,
+
+                                pointStyle: "circle",
+
+                                padding: 13,
+
+                                boxWidth: 7,
+
+                                boxHeight: 7,
+
+                                font: {
+                                    size: 10,
+                                    weight: "600",
+                                },
+                            }
+                        },
+
+                        tooltip: {
+
+                            padding: 12,
+
+                            backgroundColor:
+                                "#172033",
+
+                            titleFont: {
+                                size: 12,
+                            },
+
+                            bodyFont: {
+                                size: 11,
+                            },
+                        }
+                    }
+                }
+            }
+        );
+
+
+        /* =================================================
+           ENTRADA VS SALIDA
+        ================================================= */
+
+        new Chart(
+            document.getElementById(
+                "entradaSalidaChart"
+            ),
+            {
+                type: "bar",
+
+                data: {
+
+                    labels:
+                        jornadaData.labels,
+
+                    datasets: [
+
+                        {
+                            label:
+                                "Entrada",
+
+                            data:
+                                jornadaData.entrada,
+
+                            backgroundColor:
+                                "#5b5cf0",
+
+                            borderRadius:
+                                7,
+
+                            borderSkipped:
+                                false,
+
+                            barPercentage:
+                                .7,
+                        },
+
+                        {
+                            label:
+                                "Salida",
+
+                            data:
+                                jornadaData.salida,
+
+                            backgroundColor:
+                                "#a78bfa",
+
+                            borderRadius:
+                                7,
+
+                            borderSkipped:
+                                false,
+
+                            barPercentage:
+                                .7,
+                        }
+
+                    ]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    interaction: {
+                        mode: "index",
+                        intersect: false,
+                    },
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero:
+                                true,
+
+                            ticks: {
+
+                                precision:
+                                    0,
+
+                                stepSize:
+                                    1,
+                            },
+
+                            grid: {
+
+                                color:
+                                    "rgba(100,116,139,.08)",
+                            },
+
+                            border: {
+
+                                display:
+                                    false,
+                            }
+                        },
+
+                        x: {
+
+                            grid: {
+
+                                display:
+                                    false,
+                            },
+
+                            border: {
+
+                                display:
+                                    false,
+                            },
+
+                            ticks: {
+
+                                maxRotation:
+                                    25,
+
+                                minRotation:
+                                    0,
+
+                                font: {
+                                    size: 9,
+                                },
+                            }
+                        }
+                    },
+
+                    plugins: {
+
+                        legend: {
+
+                            position:
+                                "top",
+
+                            labels: {
+
+                                usePointStyle:
+                                    true,
+
+                                pointStyle:
+                                    "circle",
+
+                                boxWidth:
+                                    7,
+
+                                font: {
+                                    size: 10,
+                                },
+                            }
+                        },
+
+                        tooltip: {
+
+                            backgroundColor:
+                                "#172033",
+
+                            padding:
+                                12,
+                        }
+                    }
+                }
+            }
+        );
+
+
+        /* =================================================
+           TENDENCIA
+        ================================================= */
+
+        new Chart(
+            document.getElementById(
+                "trendChart"
+            ),
+            {
+                type: "line",
+
+                data: {
+
+                    labels:
+                        trendData.labels,
+
+                    datasets: [
+
+                        {
+                            label:
+                                "Check-ins",
+
+                            data:
+                                trendData.checkins,
+
+                            borderColor:
+                                "#5b5cf0",
+
+                            backgroundColor:
+                                "rgba(91,92,240,.08)",
+
+                            fill:
+                                true,
+
+                            tension:
+                                .38,
+
+                            borderWidth:
+                                2.5,
+
+                            pointRadius:
+                                3,
+
+                            pointHoverRadius:
+                                6,
+
+                            pointBackgroundColor:
+                                "#ffffff",
+
+                            pointBorderColor:
+                                "#5b5cf0",
+
+                            pointBorderWidth:
+                                2,
+                        },
+
+                        {
+                            label:
+                                "Solicitudes",
+
+                            data:
+                                trendData.solicitudes,
+
+                            borderColor:
+                                "#f97316",
+
+                            backgroundColor:
+                                "rgba(249,115,22,.03)",
+
+                            fill:
+                                false,
+
+                            tension:
+                                .38,
+
+                            borderWidth:
+                                2.2,
+
+                            pointRadius:
+                                3,
+
+                            pointHoverRadius:
+                                6,
+
+                            pointBackgroundColor:
+                                "#ffffff",
+
+                            pointBorderColor:
+                                "#f97316",
+
+                            pointBorderWidth:
+                                2,
+                        }
+
+                    ]
+                },
+
+                options: {
+
+                    responsive:
+                        true,
+
+                    maintainAspectRatio:
+                        false,
+
+                    interaction: {
+
+                        mode:
+                            "index",
+
+                        intersect:
+                            false,
+                    },
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero:
+                                true,
+
+                            ticks: {
+
+                                precision:
+                                    0,
+
+                                stepSize:
+                                    1,
+                            },
+
+                            grid: {
+
+                                color:
+                                    "rgba(100,116,139,.08)",
+                            },
+
+                            border: {
+
+                                display:
+                                    false,
+                            }
+                        },
+
+                        x: {
+
+                            grid: {
+
+                                display:
+                                    false,
+                            },
+
+                            border: {
+
+                                display:
+                                    false,
+                            }
+                        }
+                    },
+
+                    plugins: {
+
+                        legend: {
+
+                            position:
+                                "top",
+
+                            labels: {
+
+                                usePointStyle:
+                                    true,
+
+                                pointStyle:
+                                    "circle",
+
+                                boxWidth:
+                                    7,
+
+                                font: {
+                                    size: 10,
+                                },
+                            }
+                        },
+
+                        tooltip: {
+
+                            backgroundColor:
+                                "#172033",
+
+                            padding:
+                                12,
+                        }
+                    }
+                }
+            }
+        );
+
+    }
+);
+
+</script>
+
+
+{% endblock %}

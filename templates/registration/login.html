@@ -1,0 +1,666 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#5b5cf0"
+    >
+
+    <title>
+        Iniciar sesión | Bienestar
+    </title>
+
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- CSS GENERAL DEL SISTEMA -->
+    <link
+        rel="stylesheet"
+        href="{% static 'bienestar/css/app.css' %}"
+    >
+
+</head>
+
+
+<body class="login-body">
+
+
+<div class="login-page">
+
+
+    <!-- =====================================================
+         PANEL DECORATIVO DESKTOP
+    ====================================================== -->
+
+    <div class="login-visual">
+
+        <div class="login-visual-content">
+
+
+            <div class="login-brand-large">
+
+                <div class="login-brand-icon-large">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Bienestar
+                    </strong>
+
+                    <span>
+                        Laboral
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="login-visual-message">
+
+                <span class="login-visual-badge">
+
+                    <i class="bi bi-heart-fill"></i>
+
+                    Bienestar diario
+
+                </span>
+
+
+                <h1>
+
+                    Tu bienestar también
+                    forma parte de la jornada.
+
+                </h1>
+
+
+                <p>
+
+                    Registra cómo te sientes al comenzar
+                    y finalizar tu jornada de forma rápida,
+                    segura y confidencial.
+
+                </p>
+
+            </div>
+
+
+            <div class="login-features">
+
+
+                <div class="login-feature">
+
+                    <i class="bi bi-shield-lock-fill"></i>
+
+                    <span>
+                        Información protegida
+                    </span>
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <i class="bi bi-phone-fill"></i>
+
+                    <span>
+                        Diseñado para celular
+                    </span>
+
+                </div>
+
+
+                <div class="login-feature">
+
+                    <i class="bi bi-clock-fill"></i>
+
+                    <span>
+                        Registro en segundos
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         LOGIN
+    ====================================================== -->
+
+    <div class="login-form-area">
+
+
+        <div class="login-mobile-brand">
+
+            <div class="login-mobile-logo">
+
+                <i class="bi bi-heart-pulse-fill"></i>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Bienestar
+                </strong>
+
+                <span>
+                    Laboral
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="login-card">
+
+
+            <!-- =============================================
+                 ICONO
+            ============================================== -->
+
+            <div class="login-icon">
+
+                <i class="bi bi-person-fill"></i>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 MOMENTO ENTRADA / SALIDA
+            ============================================== -->
+
+            <div
+                id="loginMomentBadge"
+                class="login-moment-badge"
+                style="display:none;"
+            >
+
+                <i
+                    id="loginMomentIcon"
+                    class="bi bi-sunrise-fill"
+                ></i>
+
+                <span id="loginMomentText">
+                    Check-in de entrada
+                </span>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 HEADER
+            ============================================== -->
+
+            <div class="login-header">
+
+                <h1>
+                    Bienvenido
+                </h1>
+
+                <p>
+
+                    Inicia sesión para continuar
+                    con tu registro de bienestar.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 ERRORES
+            ============================================== -->
+
+            {% if form.errors %}
+
+            <div class="login-error">
+
+                <div class="login-error-icon">
+
+                    <i class="bi bi-exclamation-circle-fill"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        No pudimos iniciar sesión
+                    </strong>
+
+                    <span>
+                        Revisa tu usuario y contraseña.
+                    </span>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+
+            {% if next %}
+
+                {% if user.is_authenticated %}
+
+                <div class="alert alert-warning rounded-4">
+
+                    Tu cuenta no tiene permisos
+                    para acceder a esta página.
+
+                </div>
+
+                {% endif %}
+
+            {% endif %}
+
+
+
+            <!-- =============================================
+                 FORM
+            ============================================== -->
+
+            <form
+                method="post"
+                class="login-form"
+                novalidate
+            >
+
+                {% csrf_token %}
+
+
+                <!-- IMPORTANTE PARA QR -->
+
+                {% if next %}
+
+                    <input
+                        type="hidden"
+                        name="next"
+                        value="{{ next }}"
+                    >
+
+                {% endif %}
+
+
+
+                <!-- =========================================
+                     USUARIO
+                ========================================== -->
+
+                <div class="login-field">
+
+                    <label
+                        for="{{ form.username.id_for_label }}"
+                        class="login-label"
+                    >
+
+                        Usuario
+
+                    </label>
+
+
+                    <div class="login-input-wrapper">
+
+                        <div class="login-input-icon">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+
+                        <input
+                            type="text"
+                            name="username"
+                            id="{{ form.username.id_for_label }}"
+                            class="form-control login-control"
+
+                            value="{{ form.username.value|default:'' }}"
+
+                            placeholder="Ingresa tu usuario"
+
+                            autocomplete="username"
+
+                            autocapitalize="none"
+
+                            spellcheck="false"
+
+                            required
+
+                            autofocus
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     CONTRASEÑA
+                ========================================== -->
+
+                <div class="login-field">
+
+                    <label
+                        for="{{ form.password.id_for_label }}"
+                        class="login-label"
+                    >
+
+                        Contraseña
+
+                    </label>
+
+
+                    <div class="login-input-wrapper">
+
+                        <div class="login-input-icon">
+
+                            <i class="bi bi-lock-fill"></i>
+
+                        </div>
+
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="{{ form.password.id_for_label }}"
+                            class="form-control login-control login-password"
+
+                            placeholder="Ingresa tu contraseña"
+
+                            autocomplete="current-password"
+
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="login-password-toggle"
+                            id="passwordToggle"
+                            aria-label="Mostrar contraseña"
+                        >
+
+                            <i
+                                id="passwordIcon"
+                                class="bi bi-eye-fill"
+                            ></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================================
+                     BOTÓN
+                ========================================== -->
+
+                <button
+                    type="submit"
+                    class="login-submit"
+                >
+
+                    <span>
+
+                        Iniciar sesión
+
+                    </span>
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- =============================================
+                 SEGURIDAD
+            ============================================== -->
+
+            <div class="login-security">
+
+                <i class="bi bi-shield-check"></i>
+
+                <span>
+
+                    Acceso seguro al sistema
+                    de Bienestar Laboral
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="login-footer">
+
+            <span>
+
+                <i class="bi bi-heart-pulse"></i>
+
+                Bienestar Laboral
+
+            </span>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JS
+====================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =================================================
+           MOSTRAR / OCULTAR CONTRASEÑA
+        ================================================= */
+
+        const passwordInput =
+            document.getElementById(
+                "{{ form.password.id_for_label }}"
+            );
+
+
+        const passwordToggle =
+            document.getElementById(
+                "passwordToggle"
+            );
+
+
+        const passwordIcon =
+            document.getElementById(
+                "passwordIcon"
+            );
+
+
+        passwordToggle.addEventListener(
+            "click",
+            function () {
+
+                const visible =
+                    passwordInput.type === "text";
+
+
+                passwordInput.type =
+                    visible
+                    ? "password"
+                    : "text";
+
+
+                passwordIcon.className =
+                    visible
+                    ? "bi bi-eye-fill"
+                    : "bi bi-eye-slash-fill";
+
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    visible
+                    ? "Mostrar contraseña"
+                    : "Ocultar contraseña"
+                );
+
+            }
+        );
+
+
+
+        /* =================================================
+           DETECTAR QR ENTRADA / SALIDA
+        ================================================= */
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const next =
+            params.get("next") || "";
+
+
+        const badge =
+            document.getElementById(
+                "loginMomentBadge"
+            );
+
+
+        const badgeText =
+            document.getElementById(
+                "loginMomentText"
+            );
+
+
+        const badgeIcon =
+            document.getElementById(
+                "loginMomentIcon"
+            );
+
+
+        if (
+            next.includes(
+                "momento=entrada"
+            )
+            ||
+            next.includes(
+                "momento%3Dentrada"
+            )
+        ) {
+
+            badge.style.display =
+                "inline-flex";
+
+
+            badge.classList.add(
+                "login-moment-entry"
+            );
+
+
+            badgeText.textContent =
+                "Check-in de entrada";
+
+
+            badgeIcon.className =
+                "bi bi-sunrise-fill";
+
+        }
+
+
+        else if (
+            next.includes(
+                "momento=salida"
+            )
+            ||
+            next.includes(
+                "momento%3Dsalida"
+            )
+        ) {
+
+            badge.style.display =
+                "inline-flex";
+
+
+            badge.classList.add(
+                "login-moment-exit"
+            );
+
+
+            badgeText.textContent =
+                "Check-out de salida";
+
+
+            badgeIcon.className =
+                "bi bi-sunset-fill";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

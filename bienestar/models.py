@@ -8,18 +8,66 @@ from django.contrib.auth.models import User
 
 class RespuestaPES(models.Model):
 
+    # =====================================================
+    # CONDICIONES PES
+    # =====================================================
+
     CONDICIONES = [
         ("embarazo", "Embarazo"),
         ("lactancia", "Período de lactancia"),
-        ("discapacidad", "Discapacidad física, cognitiva o sensorial"),
-        ("adulto_mayor", "Persona adulta mayor"),
-        ("adolescente", "Adolescente con edad para trabajar"),
-        ("perimenopausia", "Perimenopausia"),
-        ("menopausia", "Menopausia"),
-        ("menstrual", "Período menstrual"),
-        ("otra", "Otra condición"),
-        ("prefiero_no_indicar", "Prefiero no especificar"),
+        (
+            "discapacidad",
+            "Discapacidad física, cognitiva o sensorial"
+        ),
+        (
+            "adulto_mayor",
+            "Persona adulta mayor"
+        ),
+        (
+            "adolescente",
+            "Adolescente con edad para trabajar"
+        ),
+        (
+            "perimenopausia",
+            "Perimenopausia"
+        ),
+        (
+            "menopausia",
+            "Menopausia"
+        ),
+        (
+            "periodo_menstrual",
+            "Menstruación Dolorosa (Dismenorrea)"
+        ),
+        (
+            "otra",
+            "Otra condición"
+        ),
+        (
+            "prefiero_no_indicar",
+            "Prefiero no especificar"
+        ),
     ]
+
+
+    # =====================================================
+    # IDENTIDAD SEXOGENÉRICA
+    # =====================================================
+
+    IDENTIDAD_SEXOGENERICA_CHOICES = [
+        ("femenino", "Femenino"),
+        ("masculino", "Masculino"),
+        ("otro", "Otro"),
+        (
+            "prefiero_no_decirlo",
+            "Prefiero no decirlo"
+        ),
+    ]
+
+
+    # =====================================================
+    # USUARIO
+    # =====================================================
 
     usuario = models.ForeignKey(
         User,
@@ -27,9 +75,31 @@ class RespuestaPES(models.Model):
         related_name="respuestas_pes"
     )
 
-    es_pes = models.BooleanField(
-        verbose_name="¿Se identifica como persona especialmente sensible?"
+
+    # =====================================================
+    # IDENTIDAD SEXOGENÉRICA
+    # =====================================================
+
+    identidad_sexogenerica = models.CharField(
+        max_length=30,
+        choices=IDENTIDAD_SEXOGENERICA_CHOICES,
+        blank=True,
+        null=True,
+        verbose_name="Identidad sexogenérica",
     )
+
+
+    # =====================================================
+    # PES
+    # =====================================================
+
+    es_pes = models.BooleanField(
+        verbose_name=(
+            "¿Se identifica como persona "
+            "especialmente sensible?"
+        )
+    )
+
 
     condicion = models.CharField(
         max_length=50,
@@ -37,24 +107,51 @@ class RespuestaPES(models.Model):
         blank=True
     )
 
+
+    # =====================================================
+    # APOYO
+    # =====================================================
+
     necesita_apoyo = models.BooleanField(
         default=False
     )
+
 
     comentario = models.TextField(
         blank=True
     )
 
+
+    # =====================================================
+    # FECHA
+    # =====================================================
+
     fecha = models.DateTimeField(
         auto_now_add=True
     )
 
+
+    # =====================================================
+    # META
+    # =====================================================
+
     class Meta:
+
         verbose_name = "Respuesta PES"
+
         verbose_name_plural = "Respuestas PES"
-        ordering = ["-fecha"]
+
+        ordering = [
+            "-fecha"
+        ]
+
+
+    # =====================================================
+    # STRING
+    # =====================================================
 
     def __str__(self):
+
         return (
             f"{self.usuario.username} - "
             f"{self.fecha:%d/%m/%Y}"

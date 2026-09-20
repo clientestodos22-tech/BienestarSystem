@@ -15,6 +15,27 @@ from .models import (
 
 class PESForm(forms.ModelForm):
 
+    # =====================================================
+    # IDENTIDAD SEXOGENÉRICA
+    # =====================================================
+
+    identidad_sexogenerica = forms.ChoiceField(
+        label="Identidad sexogenérica:",
+        choices=[
+            ("femenino", "Femenino"),
+            ("masculino", "Masculino"),
+            ("otro", "Otro"),
+            ("prefiero_no_decirlo", "Prefiero no decirlo"),
+        ],
+        widget=forms.RadioSelect,
+        required=True,
+    )
+
+
+    # =====================================================
+    # IDENTIFICACIÓN PES
+    # =====================================================
+
     es_pes = forms.TypedChoiceField(
         label="¿Te identificas como persona especialmente sensible?",
         choices=[
@@ -25,6 +46,11 @@ class PESForm(forms.ModelForm):
         widget=forms.RadioSelect,
         required=True,
     )
+
+
+    # =====================================================
+    # NECESIDAD DE APOYO
+    # =====================================================
 
     necesita_apoyo = forms.TypedChoiceField(
         label="¿Consideras que necesitas algún apoyo o adaptación?",
@@ -37,11 +63,17 @@ class PESForm(forms.ModelForm):
         required=True,
     )
 
+
+    # =====================================================
+    # META
+    # =====================================================
+
     class Meta:
 
         model = RespuestaPES
 
         fields = [
+            "identidad_sexogenerica",
             "es_pes",
             "condicion",
             "necesita_apoyo",
@@ -52,7 +84,7 @@ class PESForm(forms.ModelForm):
 
             "condicion": forms.Select(
                 attrs={
-                    "class": "form-select"
+                    "class": "form-select",
                 }
             ),
 
@@ -64,10 +96,15 @@ class PESForm(forms.ModelForm):
                     "placeholder": (
                         "Si lo deseas, puedes agregar "
                         "información adicional..."
-                    )
+                    ),
                 }
             ),
         }
+
+
+    # =====================================================
+    # VALIDACIÓN
+    # =====================================================
 
     def clean(self):
 
@@ -76,17 +113,26 @@ class PESForm(forms.ModelForm):
         es_pes = cleaned_data.get("es_pes")
         condicion = cleaned_data.get("condicion")
 
+
+        # Si declara ser PES, debe indicar condición
         if es_pes and not condicion:
 
             self.add_error(
                 "condicion",
-                "Selecciona la condición o situación que corresponda."
+                (
+                    "Selecciona la condición o situación "
+                    "que corresponda."
+                ),
             )
 
+
+        # Si NO es PES, limpiamos información relacionada
         if es_pes is False:
 
             cleaned_data["condicion"] = ""
+
             cleaned_data["necesita_apoyo"] = False
+
 
         return cleaned_data
 

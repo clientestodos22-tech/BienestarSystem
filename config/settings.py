@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 
@@ -30,6 +31,11 @@ ALLOWED_HOSTS = [
         "127.0.0.1,localhost"
     ).split(",")
     if host.strip()
+]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://bienestar-renbel23.pythonanywhere.com",
 ]
 
 
@@ -102,12 +108,51 @@ WSGI_APPLICATION = "config.wsgi.application"
 # BASE DE DATOS
 # =========================================================
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+USE_MYSQL = os.environ.get(
+    "USE_MYSQL",
+    "False"
+).lower() == "true"
+
+
+if USE_MYSQL:
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+
+            "NAME": os.environ.get(
+                "MYSQL_NAME"
+            ),
+
+            "USER": os.environ.get(
+                "MYSQL_USER"
+            ),
+
+            "PASSWORD": os.environ.get(
+                "MYSQL_PASSWORD"
+            ),
+
+            "HOST": os.environ.get(
+                "MYSQL_HOST"
+            ),
+
+            "PORT": "3306",
+
+            "OPTIONS": {
+                "charset": "utf8mb4",
+            },
+        }
     }
-}
+
+else:
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # =========================================================
@@ -161,7 +206,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-
+STATIC_ROOT = BASE_DIR / "staticfiles"
 # Más adelante crearemos esta carpeta para CSS, JS e imágenes.
 STATICFILES_DIRS = [
     BASE_DIR / "static",

@@ -8,6 +8,321 @@ Declaración PES | Bienestar
 
 {% block content %}
 
+
+<style>
+/* =========================================================
+   IDENTIDAD SEXOGENÉRICA
+   Estilos locales del template para evitar problemas de
+   caché/collectstatic en producción.
+========================================================= */
+
+.pes-gender-section {
+    margin-bottom: 30px;
+}
+
+.pes-gender-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.pes-gender-head-icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+    color: #536dfe;
+    font-size: 16px;
+}
+
+.pes-gender-title {
+    display: block;
+    margin: 0;
+    color: #344054;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.pes-gender-subtitle {
+    margin: 3px 0 0;
+    color: #98a2b3;
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.pes-gender-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+}
+
+.pes-gender-option {
+    min-width: 0;
+}
+
+/* Bootstrap ya oculta .btn-check. Esta regla es respaldo. */
+.pes-gender-radio {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.pes-gender-card {
+    position: relative;
+    width: 100%;
+    min-height: 108px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 16px 15px;
+    overflow: hidden;
+    border: 2px solid #e5eaf1;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #ffffff, #fcfdff);
+    color: #344054;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 4px 14px rgba(16, 24, 40, .035);
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+.pes-gender-card::after {
+    content: "";
+    position: absolute;
+    width: 82px;
+    height: 82px;
+    right: -44px;
+    bottom: -44px;
+    border-radius: 50%;
+    background: #536dfe;
+    opacity: .04;
+    pointer-events: none;
+}
+
+.pes-gender-icon {
+    position: relative;
+    z-index: 2;
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #eef2ff, #f4f1ff);
+    color: #536dfe;
+    font-size: 19px;
+    transition: .18s ease;
+}
+
+.pes-gender-copy {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.pes-gender-copy strong {
+    color: #253044;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.pes-gender-copy span {
+    color: #7c8798;
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.pes-gender-check {
+    position: absolute;
+    z-index: 3;
+    top: 9px;
+    right: 9px;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #536dfe, #7457e9);
+    color: #fff;
+    font-size: 11px;
+    opacity: 0;
+    transform: scale(.65);
+    box-shadow: 0 4px 11px rgba(83, 109, 254, .22);
+    transition: opacity .16s ease, transform .16s ease;
+}
+
+.pes-gender-radio:checked + .pes-gender-card {
+    border-color: #536dfe;
+    background: linear-gradient(135deg, #eef1ff, #f8f6ff);
+    box-shadow: 0 10px 27px rgba(83, 109, 254, .14);
+    transform: translateY(-2px);
+}
+
+.pes-gender-radio:checked + .pes-gender-card .pes-gender-icon {
+    background: linear-gradient(135deg, #536dfe, #7356e9);
+    color: #fff;
+    box-shadow: 0 7px 17px rgba(83, 109, 254, .22);
+}
+
+.pes-gender-radio:checked + .pes-gender-card .pes-gender-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.pes-gender-radio:checked + .pes-gender-card .pes-gender-copy strong {
+    color: #3f4fd0;
+}
+
+.pes-gender-radio:focus-visible + .pes-gender-card {
+    outline: 4px solid rgba(83, 109, 254, .13);
+    outline-offset: 2px;
+    border-color: #536dfe;
+}
+
+.pes-gender-card:active {
+    transform: scale(.98);
+}
+
+@media (hover: hover) {
+    .pes-gender-card:hover {
+        border-color: #aeb8ff;
+        background: #f8f9ff;
+        transform: translateY(-3px);
+        box-shadow: 0 11px 28px rgba(83, 109, 254, .10);
+    }
+}
+
+.pes-gender-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 9px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    background: #fff1f0;
+    color: #b42318;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+@media (max-width: 992px) {
+    .pes-gender-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .pes-gender-section {
+        margin-bottom: 20px;
+    }
+
+    .pes-gender-head {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .pes-gender-head-icon {
+        width: 31px;
+        height: 31px;
+        flex-basis: 31px;
+        border-radius: 9px;
+        font-size: 13px;
+    }
+
+    .pes-gender-title {
+        font-size: 11px;
+    }
+
+    .pes-gender-subtitle {
+        font-size: 8.5px;
+    }
+
+    .pes-gender-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .pes-gender-card {
+        min-height: 80px;
+        gap: 7px;
+        padding: 9px 8px;
+        border-width: 1.5px;
+        border-radius: 13px;
+    }
+
+    .pes-gender-icon {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+    .pes-gender-copy strong {
+        font-size: 9.5px;
+    }
+
+    .pes-gender-copy span {
+        display: none;
+    }
+
+    .pes-gender-check {
+        width: 17px;
+        height: 17px;
+        top: 5px;
+        right: 5px;
+        font-size: 8px;
+    }
+
+    .pes-gender-radio:checked + .pes-gender-card {
+        transform: none;
+        box-shadow: 0 5px 14px rgba(83, 109, 254, .11);
+    }
+}
+
+@media (max-width: 390px) {
+    .pes-gender-grid {
+        gap: 5px;
+    }
+
+    .pes-gender-card {
+        min-height: 74px;
+        padding: 8px 6px;
+    }
+
+    .pes-gender-icon {
+        width: 31px;
+        height: 31px;
+        flex-basis: 31px;
+        font-size: 13px;
+    }
+
+    .pes-gender-copy strong {
+        font-size: 9px;
+    }
+}
+</style>
+
+
 <div class="row justify-content-center">
 
     <div class="col-xl-9 col-lg-10">
@@ -24,26 +339,43 @@ Declaración PES | Bienestar
                 <div class="form-header">
 
                     <div class="form-icon pes-form-icon">
+
                         <i class="bi bi-shield-fill-check"></i>
+
                     </div>
+
 
                     <div class="pes-badge">
+
                         <i class="bi bi-person-heart"></i>
+
                         Personas Especialmente Sensibles
+
                     </div>
 
+
                     <h1 class="form-title">
+
                         Declaración PES
+
                     </h1>
 
+
                     <p class="form-description">
+
                         Esta declaración permite identificar posibles
                         necesidades de protección, apoyo o adaptación
                         durante la jornada laboral.
+
                     </p>
 
                 </div>
 
+
+
+                <!-- =========================================
+                     ERRORES GENERALES
+                ========================================== -->
 
                 {% if form.errors %}
 
@@ -58,16 +390,267 @@ Declaración PES | Bienestar
                 {% endif %}
 
 
-                <form method="post" id="pesForm">
+
+                <!-- =========================================
+                     FORMULARIO
+                ========================================== -->
+
+                <form
+                    method="post"
+                    id="pesForm"
+                >
 
                     {% csrf_token %}
+
+
+
+
+                    <!-- =====================================================
+                         IDENTIDAD SEXOGENÉRICA
+                    ====================================================== -->
+
+                    <div class="form-section mt-0 pes-gender-section">
+
+                        <div class="pes-gender-head">
+
+                            <div class="pes-gender-head-icon">
+                                <i class="bi bi-person-badge-fill"></i>
+                            </div>
+
+                            <div>
+                                <div class="pes-gender-title">
+                                    Identidad sexogenérica
+                                </div>
+
+                                <p class="pes-gender-subtitle">
+                                    Selecciona la opción con la que te identificas.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="pes-gender-grid">
+
+
+                            <!-- FEMENINO -->
+
+                            <div class="pes-gender-option">
+
+                                <input
+                                    type="radio"
+                                    class="btn-check pes-gender-radio"
+                                    name="identidad_sexogenerica"
+                                    id="identidad_femenino"
+                                    value="femenino"
+                                    autocomplete="off"
+
+                                    {% if form.identidad_sexogenerica.value == "femenino" %}
+                                        checked
+                                    {% endif %}
+
+                                    required
+                                >
+
+                                <label
+                                    class="pes-gender-card"
+                                    for="identidad_femenino"
+                                >
+
+                                    <span class="pes-gender-icon">
+                                        <i class="bi bi-person-fill"></i>
+                                    </span>
+
+                                    <span class="pes-gender-copy">
+
+                                        <strong>
+                                            Femenino
+                                        </strong>
+
+                                        <span>
+                                            Identidad femenina
+                                        </span>
+
+                                    </span>
+
+                                    <span class="pes-gender-check">
+                                        <i class="bi bi-check-lg"></i>
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- MASCULINO -->
+
+                            <div class="pes-gender-option">
+
+                                <input
+                                    type="radio"
+                                    class="btn-check pes-gender-radio"
+                                    name="identidad_sexogenerica"
+                                    id="identidad_masculino"
+                                    value="masculino"
+                                    autocomplete="off"
+
+                                    {% if form.identidad_sexogenerica.value == "masculino" %}
+                                        checked
+                                    {% endif %}
+
+                                    required
+                                >
+
+                                <label
+                                    class="pes-gender-card"
+                                    for="identidad_masculino"
+                                >
+
+                                    <span class="pes-gender-icon">
+                                        <i class="bi bi-person-fill"></i>
+                                    </span>
+
+                                    <span class="pes-gender-copy">
+
+                                        <strong>
+                                            Masculino
+                                        </strong>
+
+                                        <span>
+                                            Identidad masculina
+                                        </span>
+
+                                    </span>
+
+                                    <span class="pes-gender-check">
+                                        <i class="bi bi-check-lg"></i>
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- OTRO -->
+
+                            <div class="pes-gender-option">
+
+                                <input
+                                    type="radio"
+                                    class="btn-check pes-gender-radio"
+                                    name="identidad_sexogenerica"
+                                    id="identidad_otro"
+                                    value="otro"
+                                    autocomplete="off"
+
+                                    {% if form.identidad_sexogenerica.value == "otro" %}
+                                        checked
+                                    {% endif %}
+
+                                    required
+                                >
+
+                                <label
+                                    class="pes-gender-card"
+                                    for="identidad_otro"
+                                >
+
+                                    <span class="pes-gender-icon">
+                                        <i class="bi bi-people-fill"></i>
+                                    </span>
+
+                                    <span class="pes-gender-copy">
+
+                                        <strong>
+                                            Otro
+                                        </strong>
+
+                                        <span>
+                                            Otra identidad
+                                        </span>
+
+                                    </span>
+
+                                    <span class="pes-gender-check">
+                                        <i class="bi bi-check-lg"></i>
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- PREFIERO NO DECIRLO -->
+
+                            <div class="pes-gender-option">
+
+                                <input
+                                    type="radio"
+                                    class="btn-check pes-gender-radio"
+                                    name="identidad_sexogenerica"
+                                    id="identidad_privado"
+                                    value="prefiero_no_decirlo"
+                                    autocomplete="off"
+
+                                    {% if form.identidad_sexogenerica.value == "prefiero_no_decirlo" %}
+                                        checked
+                                    {% endif %}
+
+                                    required
+                                >
+
+                                <label
+                                    class="pes-gender-card"
+                                    for="identidad_privado"
+                                >
+
+                                    <span class="pes-gender-icon">
+                                        <i class="bi bi-shield-lock-fill"></i>
+                                    </span>
+
+                                    <span class="pes-gender-copy">
+
+                                        <strong>
+                                            Prefiero no decirlo
+                                        </strong>
+
+                                        <span>
+                                            Mantener esta información privada
+                                        </span>
+
+                                    </span>
+
+                                    <span class="pes-gender-check">
+                                        <i class="bi bi-check-lg"></i>
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        {% for error in form.identidad_sexogenerica.errors %}
+
+                            <div class="pes-gender-error">
+
+                                <i class="bi bi-exclamation-circle-fill"></i>
+
+                                {{ error }}
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
 
 
                     <!-- =========================================
                          ¿ES PES?
                     ========================================== -->
 
-                    <div class="form-section mt-0">
+                    <div class="form-section">
 
                         <label class="form-label-pro mb-3">
 
@@ -81,7 +664,9 @@ Declaración PES | Bienestar
                         <div class="pes-choice-grid">
 
 
-                            <!-- SI -->
+                            <!-- =============================
+                                 SI
+                            ============================== -->
 
                             <div>
 
@@ -99,25 +684,36 @@ Declaración PES | Bienestar
                                     required
                                 >
 
+
                                 <label
                                     class="pes-choice-card pes-choice-yes"
                                     for="es_pes_si"
                                 >
 
                                     <div class="pes-choice-icon">
+
                                         <i class="bi bi-check-lg"></i>
+
                                     </div>
 
+
                                     <div>
-                                        <strong>Sí</strong>
+
+                                        <strong>
+                                            Sí
+                                        </strong>
 
                                         <span>
                                             Quiero declarar una condición
                                         </span>
+
                                     </div>
 
+
                                     <div class="pes-selected-check">
+
                                         <i class="bi bi-check"></i>
+
                                     </div>
 
                                 </label>
@@ -125,7 +721,10 @@ Declaración PES | Bienestar
                             </div>
 
 
-                            <!-- NO -->
+
+                            <!-- =============================
+                                 NO
+                            ============================== -->
 
                             <div>
 
@@ -141,25 +740,36 @@ Declaración PES | Bienestar
                                     {% endif %}
                                 >
 
+
                                 <label
                                     class="pes-choice-card pes-choice-no"
                                     for="es_pes_no"
                                 >
 
                                     <div class="pes-choice-icon">
+
                                         <i class="bi bi-dash-lg"></i>
+
                                     </div>
 
+
                                     <div>
-                                        <strong>No</strong>
+
+                                        <strong>
+                                            No
+                                        </strong>
 
                                         <span>
                                             No me identifico actualmente
                                         </span>
+
                                     </div>
 
+
                                     <div class="pes-selected-check">
+
                                         <i class="bi bi-check"></i>
+
                                     </div>
 
                                 </label>
@@ -168,7 +778,21 @@ Declaración PES | Bienestar
 
                         </div>
 
+
+                        {% for error in form.es_pes.errors %}
+
+                            <div class="text-danger small mt-2">
+
+                                <i class="bi bi-exclamation-circle me-1"></i>
+
+                                {{ error }}
+
+                            </div>
+
+                        {% endfor %}
+
                     </div>
+
 
 
                     <!-- =========================================
@@ -181,7 +805,9 @@ Declaración PES | Bienestar
                     >
 
 
-                        <!-- CONDICIÓN -->
+                        <!-- =====================================
+                             CONDICIÓN
+                        ====================================== -->
 
                         <div class="form-section">
 
@@ -196,13 +822,18 @@ Declaración PES | Bienestar
 
                             </label>
 
+
                             {{ form.condicion }}
+
 
                             {% for error in form.condicion.errors %}
 
                                 <div class="text-danger small mt-2">
+
                                     <i class="bi bi-exclamation-circle me-1"></i>
+
                                     {{ error }}
+
                                 </div>
 
                             {% endfor %}
@@ -210,7 +841,10 @@ Declaración PES | Bienestar
                         </div>
 
 
-                        <!-- APOYO -->
+
+                        <!-- =====================================
+                             APOYO
+                        ====================================== -->
 
                         <div class="form-section">
 
@@ -226,6 +860,8 @@ Declaración PES | Bienestar
                             <div class="support-choice-grid">
 
 
+                                <!-- NO APOYO -->
+
                                 <div>
 
                                     <input
@@ -239,6 +875,7 @@ Declaración PES | Bienestar
                                             checked
                                         {% endif %}
                                     >
+
 
                                     <label
                                         class="support-card"
@@ -256,6 +893,9 @@ Declaración PES | Bienestar
                                 </div>
 
 
+
+                                <!-- SI APOYO -->
+
                                 <div>
 
                                     <input
@@ -269,6 +909,7 @@ Declaración PES | Bienestar
                                             checked
                                         {% endif %}
                                     >
+
 
                                     <label
                                         class="support-card support-card-help"
@@ -287,10 +928,26 @@ Declaración PES | Bienestar
 
                             </div>
 
+
+                            {% for error in form.necesita_apoyo.errors %}
+
+                                <div class="text-danger small mt-2">
+
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
+                                    {{ error }}
+
+                                </div>
+
+                            {% endfor %}
+
                         </div>
 
 
-                        <!-- COMENTARIO -->
+
+                        <!-- =====================================
+                             COMENTARIO
+                        ====================================== -->
 
                         <div class="form-section">
 
@@ -305,15 +962,33 @@ Declaración PES | Bienestar
 
                             </label>
 
+
                             {{ form.comentario }}
 
+
                             <div class="form-text mt-2">
+
                                 Este campo es opcional.
+
                             </div>
+
+
+                            {% for error in form.comentario.errors %}
+
+                                <div class="text-danger small mt-2">
+
+                                    <i class="bi bi-exclamation-circle me-1"></i>
+
+                                    {{ error }}
+
+                                </div>
+
+                            {% endfor %}
 
                         </div>
 
                     </div>
+
 
 
                     <!-- =========================================
@@ -323,6 +998,7 @@ Declaración PES | Bienestar
                     <div class="privacy-notice">
 
                         <i class="bi bi-shield-lock-fill"></i>
+
 
                         <div>
 
@@ -340,6 +1016,7 @@ Declaración PES | Bienestar
                         </div>
 
                     </div>
+
 
 
                     <!-- =========================================
@@ -371,48 +1048,66 @@ Declaración PES | Bienestar
 {% endblock %}
 
 
+
 {% block scripts %}
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    const opcionSi = document.getElementById("es_pes_si");
-    const opcionNo = document.getElementById("es_pes_no");
+        const opcionSi =
+            document.getElementById(
+                "es_pes_si"
+            );
 
-    const detalles = document.getElementById("pesDetalles");
+        const opcionNo =
+            document.getElementById(
+                "es_pes_no"
+            );
+
+        const detalles =
+            document.getElementById(
+                "pesDetalles"
+            );
 
 
-    function actualizarFormulario() {
+        function actualizarFormulario() {
 
-        if (opcionSi.checked) {
+            if (opcionSi.checked) {
 
-            detalles.classList.add("pes-details-visible");
+                detalles.classList.add(
+                    "pes-details-visible"
+                );
 
-        } else {
+            } else {
 
-            detalles.classList.remove("pes-details-visible");
+                detalles.classList.remove(
+                    "pes-details-visible"
+                );
+
+            }
 
         }
 
+
+        opcionSi.addEventListener(
+            "change",
+            actualizarFormulario
+        );
+
+
+        opcionNo.addEventListener(
+            "change",
+            actualizarFormulario
+        );
+
+
+        actualizarFormulario();
+
     }
-
-
-    opcionSi.addEventListener(
-        "change",
-        actualizarFormulario
-    );
-
-
-    opcionNo.addEventListener(
-        "change",
-        actualizarFormulario
-    );
-
-
-    actualizarFormulario();
-
-});
+);
 
 </script>
 

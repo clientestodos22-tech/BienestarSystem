@@ -7955,3 +7955,906 @@ textarea.form-control {
     }
 
 }
+/* =========================================================
+   DASHBOARD FULL WIDTH
+   Solo afecta al dashboard
+========================================================= */
+
+.dashboard-container {
+    width: 100%;
+
+    max-width: 1920px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-left:
+        clamp(18px, 2vw, 38px);
+
+    padding-right:
+        clamp(18px, 2vw, 38px);
+}
+
+
+.dashboard-container
+.dashboard-shell {
+    width: 100%;
+
+    max-width: none;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.dashboard-container
+.dashboard-hero {
+    width: 100%;
+}
+
+
+/* =========================================================
+   ACCESOS RÁPIDOS
+========================================================= */
+
+.dashboard-container
+.admin-form-grid {
+    width: 100%;
+}
+
+
+/* =========================================================
+   KPI
+========================================================= */
+
+.dashboard-container
+.kpi-grid {
+    width: 100%;
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.dashboard-container
+.dash-card {
+    width: 100%;
+}
+
+
+/* =========================================================
+   DESKTOP GRANDE
+========================================================= */
+
+@media (min-width: 1600px) {
+
+    .dashboard-container {
+        max-width: none;
+
+        padding-left: 42px;
+        padding-right: 42px;
+    }
+
+
+    .dashboard-container
+    .dashboard-shell {
+        max-width: none;
+    }
+
+}
+
+
+/* =========================================================
+   NOTEBOOK / DESKTOP
+========================================================= */
+
+@media
+(min-width: 992px)
+and
+(max-width: 1599px) {
+
+    .dashboard-container {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .dashboard-container {
+        width: 100%;
+
+        max-width: none;
+
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+
+    .dashboard-container
+    .dashboard-shell {
+        width: 100%;
+
+        max-width: none;
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .dashboard-container {
+        width: 100%;
+
+        max-width: none;
+
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+
+    .dashboard-container
+    .dashboard-shell {
+        width: 100%;
+
+        max-width: 100%;
+
+        overflow-x: hidden;
+    }
+
+
+    /*
+       Hero sigue ajustándose al celular
+    */
+
+    .dashboard-container
+    .dashboard-hero {
+        width: 100%;
+
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+
+    /*
+       Formularios rápidos
+    */
+
+    .dashboard-container
+    .admin-form-grid {
+        grid-template-columns: 1fr !important;
+
+        width: 100%;
+    }
+
+
+    /*
+       KPIs 2 x 2
+    */
+
+    .dashboard-container
+    .kpi-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            ) !important;
+
+        width: 100%;
+    }
+
+
+    /*
+       Las tablas no rompen la página.
+       Solo la tabla hace scroll.
+    */
+
+    .dashboard-container
+    .table-responsive {
+        width: 100%;
+
+        overflow-x: auto;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+}
+
+
+/* =========================================================
+   CELULAR PEQUEÑO
+========================================================= */
+
+@media (max-width: 390px) {
+
+    .dashboard-container {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+}
+/* ==========================================================
+   PES · IDENTIDAD SEXOGENÉRICA
+   PRO / DESKTOP / MOBILE
+========================================================== */
+
+.pes-identity-section {
+    margin-bottom: 30px;
+}
+
+
+/* ==========================================================
+   ENCABEZADO
+========================================================== */
+
+.pes-identity-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+}
+
+
+.pes-identity-heading-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #f5f3ff
+        );
+
+    color: #536dfe;
+
+    font-size: 15px;
+}
+
+
+.pes-identity-title {
+    display: block;
+
+    margin: 0;
+
+    color: #344054;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    line-height: 1.25;
+}
+
+
+.pes-identity-subtitle {
+    margin:
+        2px
+        0
+        0;
+
+    color: #98a2b3;
+
+    font-size: 10px;
+
+    line-height: 1.35;
+}
+
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.pes-identity-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(0, 1fr)
+        );
+
+    gap: 11px;
+
+    width: 100%;
+}
+
+
+.pes-identity-option {
+    position: relative;
+
+    min-width: 0;
+}
+
+
+/* ==========================================================
+   RADIO REAL
+   Invisible visualmente pero accesible
+========================================================== */
+
+.pes-identity-input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+
+    border: 0;
+}
+
+
+/* ==========================================================
+   TARJETA
+========================================================== */
+
+.pes-identity-card {
+    position: relative;
+
+    width: 100%;
+    min-height: 108px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding:
+        16px
+        15px;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    border:
+        2px solid #e5eaf1;
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #fdfdff
+        );
+
+    color: #344054;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    box-shadow:
+        0 3px 12px
+        rgba(16, 24, 40, .025);
+
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+
+/* DECORACIÓN */
+
+.pes-identity-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 70px;
+    height: 70px;
+
+    right: -38px;
+    bottom: -38px;
+
+    border-radius: 50%;
+
+    background: #536dfe;
+
+    opacity: .035;
+
+    pointer-events: none;
+}
+
+
+/* ==========================================================
+   HOVER DESKTOP
+========================================================== */
+
+@media (hover: hover) {
+
+    .pes-identity-card:hover {
+        border-color: #aab5ff;
+
+        background:
+            linear-gradient(
+                145deg,
+                #ffffff,
+                #f6f7ff
+            );
+
+        transform:
+            translateY(-3px);
+
+        box-shadow:
+            0 10px 27px
+            rgba(83, 109, 254, .10);
+    }
+
+}
+
+
+/* ==========================================================
+   ICONO
+========================================================== */
+
+.pes-identity-icon {
+    position: relative;
+
+    z-index: 2;
+
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef2ff,
+            #f4f1ff
+        );
+
+    color: #536dfe;
+
+    font-size: 18px;
+
+    transition:
+        color .18s ease,
+        background .18s ease,
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
+
+/* ==========================================================
+   TEXTO
+========================================================== */
+
+.pes-identity-content {
+    position: relative;
+
+    z-index: 2;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.pes-identity-content strong {
+    display: block;
+
+    color: #253044;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    line-height: 1.25;
+}
+
+
+.pes-identity-content span {
+    display: block;
+
+    color: #7c8798;
+
+    font-size: 8.5px;
+
+    font-weight: 500;
+
+    line-height: 1.35;
+}
+
+
+/* ==========================================================
+   CHECK
+========================================================== */
+
+.pes-identity-check {
+    position: absolute;
+
+    z-index: 3;
+
+    top: 9px;
+    right: 9px;
+
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #536dfe,
+            #7458e9
+        );
+
+    color: white;
+
+    font-size: 11px;
+
+    opacity: 0;
+
+    transform:
+        scale(.65);
+
+    box-shadow:
+        0 4px 11px
+        rgba(83,109,254,.22);
+
+    transition:
+        opacity .16s ease,
+        transform .16s ease;
+}
+
+
+/* ==========================================================
+   SELECCIONADO
+========================================================== */
+
+.pes-identity-input:checked
++
+.pes-identity-card {
+    border-color: #536dfe;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef1ff 0%,
+            #f8f6ff 100%
+        );
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 9px 25px
+        rgba(83,109,254,.13);
+}
+
+
+.pes-identity-input:checked
++
+.pes-identity-card
+.pes-identity-icon {
+    background:
+        linear-gradient(
+            135deg,
+            #536dfe,
+            #7356e9
+        );
+
+    color: white;
+
+    transform:
+        scale(1.04);
+
+    box-shadow:
+        0 7px 17px
+        rgba(83,109,254,.22);
+}
+
+
+.pes-identity-input:checked
++
+.pes-identity-card
+.pes-identity-check {
+    opacity: 1;
+
+    transform:
+        scale(1);
+}
+
+
+.pes-identity-input:checked
++
+.pes-identity-card
+.pes-identity-content strong {
+    color: #3646c9;
+}
+
+
+/* ==========================================================
+   ACCESIBILIDAD TECLADO
+========================================================== */
+
+.pes-identity-input:focus-visible
++
+.pes-identity-card {
+    outline:
+        4px solid
+        rgba(83,109,254,.13);
+
+    outline-offset:
+        2px;
+
+    border-color:
+        #536dfe;
+}
+
+
+/* ==========================================================
+   ACTIVE / TOUCH
+========================================================== */
+
+.pes-identity-card:active {
+    transform:
+        scale(.98);
+}
+
+
+/* ==========================================================
+   ERROR
+========================================================== */
+
+.pes-identity-error {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 9px;
+
+    padding:
+        8px
+        10px;
+
+    border-radius: 9px;
+
+    background: #fff1f0;
+
+    color: #b42318;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 992px) {
+
+    .pes-identity-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+
+    .pes-identity-card {
+        min-height: 94px;
+    }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 576px) {
+
+    .pes-identity-section {
+        margin-bottom: 19px;
+    }
+
+
+    .pes-identity-heading {
+        gap: 7px;
+
+        margin-bottom: 9px;
+    }
+
+
+    .pes-identity-heading-icon {
+        width: 29px;
+        height: 29px;
+
+        border-radius: 8px;
+
+        font-size: 13px;
+    }
+
+
+    .pes-identity-title {
+        font-size: 10.5px;
+    }
+
+
+    .pes-identity-subtitle {
+        font-size: 8px;
+    }
+
+
+    /*
+       2 x 2
+       Ideal para iPhone / Android
+    */
+
+    .pes-identity-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+        gap: 7px;
+    }
+
+
+    .pes-identity-card {
+        min-height: 78px;
+
+        gap: 7px;
+
+        padding:
+            9px
+            8px;
+
+        border-width: 1.5px;
+
+        border-radius: 13px;
+    }
+
+
+    .pes-identity-icon {
+        width: 34px;
+        height: 34px;
+
+        border-radius: 10px;
+
+        font-size: 14px;
+    }
+
+
+    .pes-identity-content {
+        gap: 0;
+    }
+
+
+    .pes-identity-content strong {
+        font-size: 9.5px;
+
+        line-height: 1.15;
+    }
+
+
+    /*
+       En celular quitamos la descripción
+       para ahorrar espacio.
+    */
+
+    .pes-identity-content span {
+        display: none;
+    }
+
+
+    .pes-identity-check {
+        width: 17px;
+        height: 17px;
+
+        top: 5px;
+        right: 5px;
+
+        font-size: 8px;
+    }
+
+
+    .pes-identity-input:checked
+    +
+    .pes-identity-card {
+        transform: none;
+
+        box-shadow:
+            0 5px 14px
+            rgba(83,109,254,.11);
+    }
+
+}
+
+
+/* ==========================================================
+   IPHONE SE / PANTALLAS MUY PEQUEÑAS
+========================================================== */
+
+@media (max-width: 390px) {
+
+    .pes-identity-grid {
+        gap: 5px;
+    }
+
+
+    .pes-identity-card {
+        min-height: 73px;
+
+        padding:
+            8px
+            6px;
+    }
+
+
+    .pes-identity-icon {
+        width: 31px;
+        height: 31px;
+
+        font-size: 13px;
+    }
+
+
+    .pes-identity-content strong {
+        font-size: 9px;
+    }
+
+}
